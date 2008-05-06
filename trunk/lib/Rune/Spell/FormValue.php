@@ -30,7 +30,7 @@
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  */
 
 require_once 'Rune/Stone.php';
@@ -98,54 +98,63 @@ class Rune_Spell_FormValue extends Rune_Spell_Common
             }
 
             foreach ($formValue as $name => $baseValue) {
-                if (is_object($baseValue) || is_array($baseValue)) {
+                if (is_object($baseValue)) {
                     continue;
                 }
 
-                $value = htmlentities($baseValue, ENT_QUOTES);
+                if (is_array($baseValue)) {
+                    foreach ($baseValue as $value) {
+                        $value = htmlentities($value, ENT_QUOTES);
 
-                $selector = '[name="' . $name . '"]';
-                foreach (Rune_Master::find($formNode, $selector) as $node) {
-                    switch ($node->tag) {
-                    case 'textarea':
-                        $node->innertext = $value;
-                        break;
-                    case 'select':
-                        $selectStone = new Rune_Stone();
-                        $selectStone->setContent($node->innertext);
-
-                        $target = 'option[value="' . $value . '"]';
-                        foreach (Rune_Master::find($selectStone, $target) as $option) {
-                            $option->selected = 'selected';
-                        }
-                        $node->innertext = Rune_Master::scan($selectStone);
-                        $selectStone->clear();
-                        break;
-                    default:
-                        if (strtolower($node->type) === 'radio'
-                            || strtolower($node->type) === 'checkbox'
-                            ) {
-                            if ((string)$node->value === (string)$value) {
-                                $node->checked = 'checked';
+                        $selector = "input[name=\"{$name}[]\"]";
+                        foreach (Rune_Master::find($formNode, $selector) as $node) {
+                            if (strtolower($node->type) !== 'radio'
+                                && strtolower($node->type) !== 'checkbox'
+                                ) {
+                                continue;
                             }
-                        } else {
-                            $node->value = $value;
-                        }
-                        break;
-                    }
-                }
 
-                // irregular case
-                $selector = 'input[name="' . $name . '[]"]';
-                foreach (Rune_Master::find($formNode, $selector) as $node) {
-                    if (strtolower($node->type) === 'radio'
-                        || strtolower($node->type) === 'checkbox'
-                        ) {
-                        if ((string)$node->value === (string)$value) {
+                            if ((string)$node->value !== (string)$value) {
+                                continue;
+                            }
+
                             $node->checked = 'checked';
                         }
-                    } else {
-                        $node->value = $value;
+                    }
+
+                } else {
+
+                    $value = htmlentities($baseValue, ENT_QUOTES);
+
+                    $selector = '[name="' . $name . '"]';
+                    foreach (Rune_Master::find($formNode, $selector) as $node) {
+                        switch ($node->tag) {
+                        case 'textarea':
+                            $node->innertext = $value;
+                            break;
+                        case 'select':
+                            $selectStone = new Rune_Stone();
+                            $selectStone->setContent($node->innertext);
+
+                            $target = 'option[value="' . $value . '"]';
+                            foreach (Rune_Master::find($selectStone, $target) as $option) {
+                                $option->selected = 'selected';
+                            }
+                            $node->innertext = Rune_Master::scan($selectStone);
+                            $selectStone->clear();
+                            break;
+                        default:
+                            if (strtolower($node->type) === 'radio'
+                                || strtolower($node->type) === 'checkbox'
+                                ) {
+                                if ((string)$node->value === (string)$value) {
+                                    $node->checked = 'checked';
+                                }
+                            } else {
+                                $node->value = $value;
+                            }
+                            break;
+                        }
                     }
                 }
             }

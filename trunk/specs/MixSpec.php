@@ -4,7 +4,7 @@
 /* 
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  * @since      File available since Release 0.1.0
  */
 
@@ -84,11 +84,11 @@ class Describe機能の複合利用 extends SpecCommon
         $variables->checkboxes = array(array('value' => 1, 'name' => 'foo'),
                                        array('value' => 2, 'name' => 'bar'),
                                        );
-        $variables->checkbox = '2';
+        $formValue->checkbox = array(2);
 
         $master = $this->_master;
         $master->assign($variables);
-        $master->setFormValue(null, $variables);
+        $master->setFormValue(null, $formValue);
         $display = rendererInTest($master, 'Mix/ForeachCheckbox');
         $result = file_get_contents('./results/Mix/ForeachCheckbox.html');
 
