@@ -4,7 +4,7 @@
 /* 
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  * @since      File available since Release 0.1.0
  */
 
@@ -53,7 +53,7 @@ class Describeプラグイン extends SpecCommon
         $spells = $master->listSpell();
 
         $this->spec(is_array($spells))->should->beTrue();
-        $this->spec(count($spells))->should->be(6);
+        $this->spec(count($spells))->should->be(7);
     }
 
     public function it利用するプラグインのエントリを変更できる()

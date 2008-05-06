@@ -30,7 +30,7 @@
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  */
 
 require_once dirname(__FILE__) . '/imports/html_dom_parser.php';
@@ -96,6 +96,7 @@ class Rune_Master
 
         $this->_templateDirectory = $templateDirectory;
         $spells = array(
+                        'Rune_Spell_Layout',
                         'Rune_Spell_Manipulation',
                         'Rune_Spell_Attribute',
                         'Rune_Spell_Variable',
@@ -112,8 +113,8 @@ class Rune_Master
     /**
      * __call - executes spells method.
      * 
-     * @param string $selector
-     * @param mixed $elements
+     * @param string $methodName
+     * @param array $params
      * @return void
      */
     public function __call($methodName, $params)
@@ -142,19 +143,23 @@ class Rune_Master
     public function cast($templateName)
     {
         $this->_runic->setTemplate($templateName);
+        $this->_runic->setTemplateSuffix($this->_templateSuffix);
 
         $filename = "{$templateName}{$this->_templateSuffix}";
         $templateFile = "{$this->_templateDirectory}/{$filename}";
 
         $stone = new Rune_Stone();
-        $stone->setTemplate($templateFile);
 
-        $spells = $this->_runic->getSpells();
-        foreach ($spells as $spell) {
-            $spell->carve($stone);
+        try {
+            $stone->setTemplate($templateFile);
+            $spells = $this->_runic->getSpells();
+            foreach ($spells as $spell) {
+                $spell->carve($stone);
+            }
+            echo $this->scan($stone);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
-
-        echo $this->scan($stone);
     }
 
     // }}}
