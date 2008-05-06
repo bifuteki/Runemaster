@@ -1,0 +1,17 @@
+<appendix id="lisence">
+  <title>ライセンス</title>
+
+  <para>
+    本パッケージに付属されるソースコードは、BSD ライセンス (<ulink url="http://www.opensource.org/licenses/bsd-license.php" />) の元に配布され、また適応されます。
+  </para>
+
+  <para>
+    ただし、本パッケージ内で利用される PHP Simple HTML DOM Parser (<ulink url="http://simplehtmldom.sourceforge.net/" />) は MIT ライセンス (<ulink url="http://opensource.org/licenses/mit-license.php" />) の元に付属され、また適応されます。
+  </para>
+
+  <para>
+    また本パッケージに付属するドキュメントのすべては、クリエイティブ・コモンズ 表示 3.0 ライセンス (Creative Commons Attribution 3.0 License) <ulink url="http://creativecommons.org/licenses/by/3.0/deed.ja" /> のもとで公開するものとします。
+  </para>
+
+</appendix>
+

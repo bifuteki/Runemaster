@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="template.element.attribute">
+  <title>エレメントの属性</title>
+
+  <section id="set.attribute">
+    <title>属性を追加する</title>
+
+    <para>
+      HTML コンテンツ内におけるエレメントとして示されるドキュメントは、
+      その要素（タグ）内に様々な「属性」をあわせて所持することで、
+      特定の意味を持つ内容として表現されます。
+      例えば次のような、H1 要素に id 属性を付与し（そしてそれがスタイルを適応する情報として利用されて）タイトルとして表現されたものであったり、
+      A 要素に href 要素を付与して他のHTTPリソースへのリンクを表現したりといった具合にです。
+    </para>
+
+    <programlisting role="html">
+&lt;h1 id="title"&gt;Hello, World!&lt;/h1&gt;
+&lt;a href="http://example.com/"&gt;Example Link&lt;/a&gt;</programlisting>
+
+    <para>
+      Runemaster では指定する特定のエレメントに対して、
+      属性の名称および値のセットをまとめて追加することができます。
+    </para>
+
+    <para>
+      この機能を利用するために HTML テンプレートへ何かしらの記述を行う必要は特にありません。
+      強いてあげるならば、属性を追加する対象となるエレメントに対して、
+      既に HTML ドキュメントとしてのマークアップが施されていることです。
+      （ドキュメント内にユニークな存在であろう id 属性を付与する、
+      まとめて追加する対象として共通の class 属性を付与する、など。）
+    </para>
+
+    <para>
+      属性の追加を行うには、プログラムより setAttribute メソッドを実行します。
+      setAttribute メソッドへは、第一パラメータとして属性を追加したい対象となるエレメントを示す「セレクタルール」（後述します）をセットし、
+      第二パラメータには、属性の名称とその値をプロパティおよび値とするオブジェクトをセットします。
+    </para>
+
+    <para>
+      次のコード例では、H1 向け、A 向けにそれぞれ属性セットとなるオブジェクトを作成し、
+      setAttribute メソッドで追加処理を行っています。
+      １つ目の setAttribute メソッドでは「id="title"」を持つエレメントをセレクタルールで指定しており、
+      また２つ目の setAttribute メソッドでは A をもつ全てのエレメントを指定しています。
+    </para>
+
+    <example>
+      <title>エレメントへ属性を追加</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>PHP コード</term>
+          <listitem>
+            <programlisting role="php">
+$master = new Rune_Master('/path/to/templateDirectory');
+
+$h1Attribute = new stdClass();
+$h1Attribute-&gt;lang = 'ja';
+
+$linkAttribute = new stdClass();
+$linkAttribute-&gt;class = 'external';
+
+$master-&gt;setAttribute('#title', $h1Attribute);
+$master-&gt;setAttribute('a', $linkAttribute);
+$master-&gt;cast('example');</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <variablelist>
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+&lt;h1 id="title" lang="ja"&gt;Hello, World!&lt;/h1&gt;
+&lt;a href="http://example.com/" class="external"&gt;Example Link&lt;/a&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </example>
+
+    <para>
+      エレメントを指定するために利用するセレクタルールは、以下の表のようなものがあります。
+      これらセレクタルールは、Runemaster 内で利用されているライブラリである
+      PHP Simple HTML DOM Parser (<ulink url="http://simplehtmldom.sourceforge.net/" />) の仕組みに基づいたものとなっています。
+      そしてそれは、Javascript ライブラリの jQuery (<ulink url="http://jquery.com/" />) で利用されている「セレクタ」構文に似た仕様となっています。
+    </para>
+
+    <table>
+      <title>セレクタルール例</title>
+
+      <tgroup cols="2">
+        <thead>
+          <row>
+            <entry align="center">種類</entry>
+            <entry align="center">セレクタ例</entry>
+            <entry align="center">エレメント例</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>
+              エレメント（要素、タグ）名称
+            </entry>
+            <entry>
+              span
+            </entry>
+            <entry>
+              ドキュメント内の &lt;span&gt;
+            </entry>
+          </row>
+
+          <row>
+            <entry morerows="1" valign="top">
+              id 属性
+            </entry>
+            <entry>
+              #foo
+            </entry>
+            <entry>
+              id="foo" を持つエレメント
+            </entry>
+          </row>
+
+          <row>
+            <entry>
+              span#foo
+            </entry>
+            <entry>
+              id="foo" を持つ &lt;SPAN&gt;
+            </entry>
+          </row>
+
+
+          <row>
+            <entry morerows="1" valign="top">
+              class 属性
+            </entry>
+            <entry>
+              .foo
+            </entry>
+            <entry>
+              class="foo" を持つエレメント
+            </entry>
+          </row>
+
+          <row>
+            <entry>
+              span.foo
+            </entry>
+            <entry>
+              class="foo" を持つ &lt;span&gt;
+            </entry>
+          </row>
+
+
+          <row>
+            <entry morerows="1" valign="top">
+              指定する属性
+            </entry>
+            <entry>
+              [name]
+            </entry>
+            <entry>
+              name 属性を持つエレメント
+            </entry>
+          </row>
+
+          <row>
+            <entry>
+              input[name]
+            </entry>
+            <entry>
+              name 属性を持つ &lt;INPUT&gt;
+            </entry>
+          </row>
+
+          <row>
+            <entry morerows="4" valign="top">
+              指定する属性と値
+            </entry>
+            <entry>
+              [name="foo"]
+            </entry>
+            <entry>
+              name="foo" を持つエレメント
+            </entry>
+          </row>
+
+          <row>
+            <entry>
+              [name!="foo"]
+            </entry>
+            <entry>
+              name="foo" を持たないエレメント
+            </entry>
+          </row>
+
+          <row>
+            <entry>
+              [name^="foo"]
+            </entry>
+            <entry>
+              foo から始まる name 属性を持つエレメント
+            </entry>
+          </row>
+
+          <row>
+            <entry>
+              [name$="foo"]
+            </entry>
+            <entry>
+              foo で終わる name 属性を持つエレメント
+            </entry>
+          </row>
+
+          <row>
+            <entry>
+              [name*="foo"]
+            </entry>
+            <entry>
+              foo を含む name 属性を持つエレメント
+            </entry>
+          </row>
+
+
+          <row>
+            <entry>
+              内部のエレメント
+            </entry>
+            <entry>
+              table.foo tr
+            </entry>
+            <entry>
+              &lt;TABLE class="foo"&gt; 内の &lt;TR&gt;
+            </entry>
+          </row>
+
+
+        </tbody>
+
+      </tgroup>
+    </table>
+
+
+
+
+  </section>
+
+</section>
+

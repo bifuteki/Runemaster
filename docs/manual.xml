@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+       "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"
+>
+
+<book id="manual" lang="ja" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <bookinfo>
+        <title>Runemaster マニュアル</title>
+        <subtitle>DOMアクセスベース テンプレートエンジン</subtitle>
+
+        <pubdate><?dbtimestamp format="Y-m-d"?></pubdate>
+        <copyright>
+            <year><?dbtimestamp format="Y"?></year>
+            <holder>
+                KUMAKURA Yousuke
+                (<ulink url="http://hatotech.org/kumatch/" />)
+            </holder>
+        </copyright>
+        <legalnotice>
+            <para>
+              本稿のすべては、クリエイティブ・コモンズ 表示 3.0 ライセンス (Creative Commons Attribution 3.0 License) <ulink url="http://creativecommons.org/licenses/by/3.0/deed.ja" /> のもとで公開するものとします。
+            </para> 	    
+        </legalnotice>
+    </bookinfo>
+
+    <xi:include href="chapters/Start.xml" />
+
+    <xi:include href="chapters/Installation.xml" />
+
+    <chapter id="variable">
+      <title>テンプレート変数</title>
+
+      <xi:include href="chapters/VariableAssign.xml" />
+      <xi:include href="chapters/VariableForeach.xml" />
+      <xi:include href="chapters/VariableIf.xml" />
+
+    </chapter>
+
+    <chapter id="form">
+      <title>フォーム</title>
+
+      <xi:include href="chapters/FormValue.xml" />
+      <xi:include href="chapters/FormSelect.xml" />
+      <xi:include href="chapters/FormHidden.xml" />
+
+    </chapter>
+
+    <chapter id="element">
+      <title>エレメント</title>
+
+      <xi:include href="chapters/ElementAttribute.xml" />
+
+    </chapter>
+
+    <chapter id="node">
+      <title>ノード</title>
+
+      <xi:include href="chapters/NodeManipulation.xml" />
+    </chapter>
+
+    <chapter id="load.to.high.runemaster">
+      <title>上級マスターへの道 (準備中)</title>
+    </chapter>
+
+    <chapter id="ancient.spell">
+      <title>古代の呪術 (準備中)</title>
+    </chapter>
+
+    <xi:include href="chapters/Lisence.xml" />
+
+</book>

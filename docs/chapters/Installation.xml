@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="installation">
+  <title>準備と設定</title>
+
+  <section id="runemaster.installation">
+    <title>Runemaster のインストール</title>
+
+    <section id="archive.package">
+      <title>アーカイブパッケージ</title>
+
+      <para>
+        Runemaster のアーカイブパッケージ内は以下のような内容となっています。
+      </para>
+
+      <table>
+        <title>Runemaster アーカイブの中身</title>
+
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry align="center">dir</entry>
+              <entry align="center">説明</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>docs</entry>
+              <entry>マニュアル</entry>
+            </row>
+          </tbody>
+
+          <tbody>
+            <row>
+              <entry>libs</entry>
+              <entry>Runemaster ライブラリ群</entry>
+            </row>
+          </tbody>
+
+          <tbody>
+            <row>
+              <entry>specs</entry>
+              <entry><ulink url="http://www.phpspec.org/">PHPSpec</ulink> による
+              spec (テスト) プログラム群
+              </entry>
+            </row>
+          </tbody>
+
+        </tgroup>
+      </table>
+    </section>
+
+      
+    <section id="runemaster.install">
+      <title>インストール</title>
+
+      <para>
+        lib 内にある「Rune」ディレクトリを、PHP 環境の
+        include_path に含まれている場所へ設置してください。
+        例えば、PHP include_path が /usr/share/php ならば、
+        /usr/share/php/Rune、c:\php\lib ならば、
+        c:\php\lib/Rune となります。
+      </para>
+
+      <para>
+        include_path に含まれる場所へ設置できた場合、
+        PHP プログラムからは次のようなコードでプログラムを読み込むことができることになります。
+      </para>
+
+      <programlisting role="php">
+require_once 'Rune/Master.php';
+</programlisting>
+
+    </section>
+
+  </section>
+
+  <section id="runemaster.cunstruct">
+    <title>Runemaster のコンストラクタ</title>
+
+    <section id="create.instance">
+      <title>インスタンスの作成</title>
+
+      <para>
+        Runemaster のクラスインスタンスを作成する際には、
+        テンプレートファイルが存在するディレクトリのパスをパラメータとして指定する必要があります。
+      </para>
+
+      <example>
+        <title>Runemaster インスタンスの作成</title>
+        <programlisting role="php">
+require_once 'Rune/Master.php';
+
+$templatesDirectory = '/path/to/templates';
+$master = new Rune_Master($templatesDirectory);
+</programlisting>
+      </example>
+
+    </section>
+
+  </section>
+
+  <section id="cast.and.selection.template">
+    <title>描写とテンプレートファイル</title>
+
+    <section id="runemaster.cast">
+      <title>描写</title>
+
+      <para>
+        描写処理を行うには、Runemaster インスタンスの cast メソッドを実行します。
+        また cast メソッド実行時には、描写内容のベースとなるテンプレート名をあわせて指定します。
+      </para>
+
+      <para>
+        テンプレート名とは、テンプレートデータとして準備されたファイル名称から拡張子を除いたものです。
+        またテンプレートのファイル名称は「.html」拡張子をもったものです。
+        （変更することもできます。）
+      </para>
+
+      <example>
+        <title>描写処理</title>
+        <programlisting role="php">
+$master = new Rune_Master($templatesDirectory);
+$master->cast('Example');
+</programlisting>
+      </example>
+
+    </section>
+
+    <section id="template.file.selection">
+      <title>テンプレートファイルの指定について</title>
+
+      <para>
+        もしテンプレートディレクトリ内がいくつものディレクトリツリーで構成されていて、そのツリー内部のテンプレートファイルを指定したい場合は、cast メソッドでも同様にスラッシュで区切った形式で記述します。
+      </para>
+
+      <para>
+        たとえばテンプレートディレクトリ以下に myweb/items/ という名称のディレクトリがあり、items 内の list.html というテンプレートファイルを使って描写したい場合は、次のようなコードを記述します。
+      </para>
+
+      <example>
+        <title>多段ディレクトリ内のテンプレートファイル</title>
+        <programlisting role="php">
+$master = new Rune_Master($templatesDirectory);
+$master->cast('myweb/items/list');
+</programlisting>
+      </example>
+    </section>
+
+    <section id="change.tempalte.suffix">
+      <title>テンプレート拡張子の変更</title>
+
+      <para>
+        前述したとおり、テンプレートデータは「.html」という拡張子をもったファイルを準備し利用します。
+      </para>
+
+      <para>
+        もしテンプレートとして利用するファイルの拡張子を別のものにしたい場合は、
+        setTemplateSuffix メソッドを使用します。
+        次の例では、テンプレートを「.tpl」という拡張子に変更し利用するようにします。このとき描写に利用されるテンプレートファイルは「hello.tpl」になります。
+      </para>
+
+      <example>
+        <title>テンプレート拡張子を「.tpl」に変更</title>
+        <programlisting role="php">
+$master = new Rune_Master($templatesDirectory);
+$master->setTemplateSuffix('.tpl');
+$master->cast('hello');
+</programlisting>
+      </example>
+    </section>
+
+  </section>
+
+</chapter>

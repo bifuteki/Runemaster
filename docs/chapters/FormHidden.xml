@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="template.form.hidden.element">
+  <title>Hidden (隠し) データ</title>
+
+  <section id="hidden.value.setting">
+    <title>Hidden データを挿入する</title>
+
+    <para>
+      setHiddenValue メソッドを使用すると、
+      指定するフォームに対して Hidden (隠し) タイプのデータを挿入することができます。
+    </para>
+
+    <example>
+      <title>指定フォームに Hidden タイプのデータを挿入する</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>テンプレート</term>
+          <listitem>
+            <programlisting role="html">
+&lt;form name="form1"&gt;
+&lt;/form&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>PHP コード</term>
+          <listitem>
+            <programlisting role="php">
+$master = new Rune_Master('/path/to/templateDirectory');
+
+$hiddenValue = new stdClass();
+$hiddenValue->class = 'Runemaster';
+$hiddenValue->item = '杖';
+
+$master-&gt;setHiddenValue('form1', $hiddenValue);
+$master-&gt;cast('example');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+&lt;form name="form1"&gt;
+  &lt;input type="hidden" name="class" value="Runemaster" /&gt;
+  &lt;input type="hidden" name="item" value="杖" /&gt;
+&lt;/form&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+
+  </section>
+
+</section>
+

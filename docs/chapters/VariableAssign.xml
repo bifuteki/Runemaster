@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="template.variable">
+  <title>テンプレート変数による置換処理</title>
+
+  <section id="replace.key.attribute.variable">
+    <title>key 属性による値の置換</title>
+
+    <para>
+      Runemaster ではテンプレート上の特定箇所を「テンプレート変数」として指定し、
+      また PHP プログラムにてそれら変数に対し「値の割り当て処理」をすることで、
+      描写の際に内容の置換処理を行うことができます。
+    </para>
+
+    <para>
+      テンプレート上で変数による置換処理を行う対象として指定を行うには、
+      HTML タグの属性として「key＝"***"」という値を付与します。
+      以下の例では、h1 タグへ key="title"を、
+      span タグに key="message" を指定しています。
+      これにより、このテンプレート上では title, message
+      という二つのテンプレート変数が準備されていることになります。
+    </para>
+
+    <example>
+      <title>置換のための変数指定を行ったテンプレート (Hello.html)</title>
+      <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+
+&lt;body&gt;
+&lt;h1 key="title"&gt;Hello, World!&lt;/h1&gt;
+
+&lt;div&gt;
+  &lt;span key="message"&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+    </example>
+
+    <para>
+      これらテンプレート変数の値を指定するには、PHP プログラムにおいて
+      Runemaster の assign メソッドを実行します。
+    </para>
+
+    <para>
+      assign メソッドへは、テンプレート変数名をキーにした連想配列、
+      もしくはプロパティとしたオブジェクトをパラメータとして指定します。
+    </para>
+
+    <example>
+      <title>PHPによるテンプレート変数の値の割り当て (hello.php)</title>
+      <programlisting role="php">
+require_once 'Rune/Master.php';
+
+$templatesDirectory = '/path/to/templateDirectory';
+$master = new Rune_Master($templatesDirectory);
+
+$variable = new stdClass();
+$variable->title = 'Hi, Runemaster!';
+$variable->message = 'DOM accesses template engine.';
+$master-&gt;assign($variable);
+
+/* $variable = array('title' => 'Hi, Runemaster',                   */
+/*                   'message' => 'DOM accesses template engine.'); */
+/* $master->assign($variable);                                      */
+/* でもよい。同じ結果となる。                                       */
+
+$master-&gt;cast('Hello');</programlisting>
+    </example>
+
+    <para>
+      このプログラムを実行すると、次のような HTML が画面に表示されます。
+      title 部、message 部それぞれが assign メソッドで指定した内容に置換され表示されていることが確認できます。
+    </para>
+
+    <example>
+      <title>変数置換 (hello.php) の実行結果</title>
+      <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 key="title"&gt;Hi, Runemaster!&lt;/h1&gt;
+
+&lt;div&gt;
+  &lt;span key="message"&gt;DOM accesses template engine.&lt;/span&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+
+    </example>
+  </section>
+
+  <section id="replace.bracket.variable">
+    <title>括弧による値の置換</title>
+
+    <para>
+      先ほどの例において、次のようなテンプレートの記述でも同じ置換結果が得られます。
+    </para>
+
+    <example>
+      <title>括弧によるテンプレート変数置換</title>
+      <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+
+&lt;body&gt;
+&lt;h1&gt;{title}&lt;/h1&gt;
+
+&lt;div&gt;
+  &lt;span&gt;{message}&lt;/span&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+    </example>
+
+    <para>
+      テンプレート変数による置換処理は key 属性だけでなく、
+      「{}」括弧で指定することもできます。
+      これは Smarty や PEAR HTML_Template_Flexy といった、
+      これまでのテンプレートエンジンにおける変数置換に似た機構です。
+      key 属性による置換機構と切り替えるための特別なコードなども一切なく、
+      また同時に利用することもできます。
+    </para>
+
+    <para>
+      どちらかの機構が優れているかや推奨するかといったことはありませんし、
+      指定もしません。時として、ある目的を実現するためのテンプレート記述が、
+      片方の機構のみで実現したがために可読性を著しく低下させることがあるかもしれません。
+      目的を実現するため、シンプルに、かつスマートで変化に強いテンプレートを記述するために、
+      どちらの機構も併用して利用することをお勧めします。
+    </para>
+  </section>
+
+  <section id="variable.type">
+    <title>配列、オブジェクトへのアクセス</title>
+
+    <para>
+      変数の値や配列やオブジェクトの場合、
+      テンプレート上では次のようにテンプレート変数名を記述します。
+      この例では key 属性による利用ですが、括弧変数による指定も同様になります。
+    </para>
+
+    <table>
+      <title>配列、オブジェクトへのアクセス</title>
+
+      <tgroup cols="2">
+        <thead>
+          <row>
+            <entry align="center">タイプ</entry>
+            <entry align="center">テンプレート変数例</entry>
+            <entry align="center">PHP 変数値例</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>
+              通常（リテラル）
+            </entry>
+            <entry>
+              &lt;span key="class"&gt;&lt;/span&gt;
+            </entry>
+            <entry>
+              $class = 'Runemaster';
+            </entry>
+          </row>
+        </tbody>
+
+        <tbody>
+          <row>
+            <entry>
+              配列（リスト）
+            </entry>
+            <entry>
+              &lt;span key="items[0]"&gt;&lt;/span&gt;
+            </entry>
+            <entry>
+              $items = array('杖');
+            </entry>
+          </row>
+        </tbody>
+
+        <tbody>
+          <row>
+            <entry>
+              連想配列（ハッシュ）
+            </entry>
+            <entry>
+              &lt;span key="person.country"&gt;&lt;/span&gt;
+            </entry>
+            <entry>
+              $person = array('country' =&gt; 'スウェーデン');
+            </entry>
+          </row>
+        </tbody>
+
+        <tbody>
+          <row>
+            <entry>
+              オブジェクト
+            </entry>
+            <entry>
+              &lt;span key="book.name"&gt;&lt;/span&gt;
+            </entry>
+            <entry>
+              $book-&gt;name = 'Runemaster マニュアル';
+            </entry>
+          </row>
+        </tbody>
+
+      </tgroup>
+    </table>
+
+  </section>
+
+
+  <section id="execute.function">
+    <title>PHP 関数の実行</title>
+
+    <para>
+      テンプレート変数の名称を指定する際には、あわせて
+      PHP の組み込み関数も使用することができます。
+      記述した PHP 関数の実行結果として返される値が、置換される内容として利用されます。
+    </para>
+
+    <example>
+      <title>テンプレート上での PHP 関数の実行と結果</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>テンプレート</term>
+          <listitem>
+            <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;span key="count(items)"&gt;&lt;/span&gt;
+&lt;span key="substr(class, 4)"&gt;&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>PHPコード</term>
+          <listitem>
+            <programlisting role="php">
+$variable->items = array('staff', 'book', 'stone');
+$variable->class = 'Runemaster';
+$master-&gt;assign($variable);
+$master-&gt;cast('function');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;span key="count(items)"&gt;3&lt;/span&gt;
+&lt;span key="substr(class, 4)"&gt;master&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+      </variablelist>
+
+    </example>
+  </section>
+
+
+  <section id="execute.class.method">
+    <title>クラスメソッドの実行</title>
+
+    <para>
+      テンプレート変数に割り当てられた値がクラスのインスタンスである場合、
+      テンプレート上でそのクラスインスタンスのメソッドを実行することができます。
+      PHP 関数の実行と同様、メソッドの実行結果として返される値が、
+      置換される内容として利用されます。
+    </para>
+
+    <example>
+      <title>テンプレート上でのクラスメソッドの実行と結果</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>テンプレート</term>
+          <listitem>
+            <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;span key="class.getName()"&gt;&lt;/span&gt;
+&lt;span key="class.add(foo, 2)"&gt;&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>PHP コード</term>
+          <listitem>
+            <programlisting role="php">
+class MyClass
+{
+  function getName()
+  {
+      return 'Runemaster';
+  }
+
+  function add($a, $b)
+  {
+      return $a + $b;
+  }
+}
+/* 中略 */
+$variable->class = new MyClass();
+$variable->foo = 10;
+$master-&gt;assign($variable);
+$master-&gt;cast('classMethod');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;span key="class.getName()"&gt;Runemaster&lt;/span&gt;
+&lt;span key="class.add(foo, 2)"&gt;12&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+  </section>
+
+
+  <section id="escape.html.variable">
+    <title>変数値のエスケープ処理</title>
+
+    <para>
+      assign メソッドによってテンプレート変数として割り当てられた値は、
+      HTML エンティティに変換する処理が自動的に行われて利用されます。
+    </para>
+
+    <example>
+      <title>文字列の HTML エンティティ自動変換</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>PHPコード</term>
+          <listitem>
+            <programlisting role="php">
+$variable->br = '&lt;br /&gt;';
+$master-&gt;assign($variable);
+$master-&gt;cast('example');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="php">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;span key="br"&gt;&amp;lt;br /&amp;gt;&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+
+    <para>
+      もし値の自動変換処理を行いたくない場合があれば、その箇所のタグに対して
+      key 属性とあわせて「html」属性を設定します。
+    </para>
+
+    <example>
+      <title>HTML エンティティ変換を行わない</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="php">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;span key="br" html="true"&gt;&lt;br /&gt;&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+
+    <para>
+      なお、括弧によるテンプレート変数に対しても同様の変換処理は行われます。
+      この括弧変数の値に対して HTML エンティティ変換処理を行いたくない場合は、
+      変数名のあとに「|html」（パイプライン記号のあとに html）と入力します。
+    </para>
+
+    <programlisting role="html">{br|html}</programlisting>
+
+  </section>
+
+
+  <section id="element.omitter">
+    <title>テンプレート変数タグの除去</title>
+
+    <para>
+      例えば、テンプレート変数によって置換された結果が次のようなものであったとします。
+      ここでは name, email, lastLogin といった値がプログラムから与えられ、
+      それぞれの変数箇所に値が適応されている状態となっています。
+    </para>
+
+    <programlisting role="html">
+Welcome &lt;span key="name"&gt;Runemaster&lt;/span&gt;
+(&lt;span key="email"&gt;runemaster@example.com&lt;/span&gt;),
+last login &lt;span key="lastLogin"&gt;2008-04-01 10:30:00&lt;/span&gt;</programlisting>
+
+    <para>
+      span をテンプレート変数タグとして表現していますが、
+      時にこれらタグを出力時には除去したいと思うかもしれません。
+    </para>
+
+    <para>
+      そのような時には、key 属性とあわせて「omitter」属性を設定します。
+      この omitter 属性を設定することで、
+      テンプレート変数として値の置換が行われた後、そのときに利用したタグを除去します。
+    </para>
+
+    <example>
+      <title>テンプレート変数タグの除去</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>テンプレート（一部）</term>
+          <listitem>
+            <programlisting role="html">
+Welcome &lt;span key="name" omitter="true"&gt;user name&lt;/span&gt;
+(&lt;span key="email" omitter="true"&gt; user email&lt;/span&gt;),
+last login &lt;span key="lastLogin" omitter="true"&gt; date (YYYY-MM-DD hh:mm:ss)&lt;/span&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+Welcome Runemaster!
+(runemaster@example.com),
+last login 2008-04-01 10:30:00</programlisting>
+          </listitem>
+        </varlistentry>
+
+      </variablelist>
+    </example>
+  </section>
+
+
+  <section id="element.attrubute.replace">
+    <title>エレメント属性に対する置換</title>
+
+    <para>
+      エレメント（HTML タグ）の属性に対してテンプレート変数値で置換したい場合、
+      括弧によるテンプレート変数指定で実現します。
+    </para>
+
+    <programlisting role="html">
+&lt;font color="{color}"&gt;Hello, World!&lt;/font&gt;</programlisting>
+
+    <para>
+      ただし、置換対象として指定できる箇所は属性の「値」のみです。
+      次の例のような、属性の「キー（名前）」および属性全体を対象として指定することはできません。
+    </para>
+
+    <programlisting role="html">
+■次の {color} は置換されない
+&lt;font {color}="#FF0000"&gt;Hello, World!&lt;/font&gt;
+&lt;font {color}&gt;Hello, World!&lt;/font&gt;</programlisting>
+
+  </section>
+
+  <section id="changing.variable.key">
+    <title>テンプレート変数属性名の「key」を変更する</title>
+
+    <para>
+      テンプレート変数による置換の対象とするために、タグ内に設定する属性は通常「key」ですが、
+      setVariableKey メソッドを使用するとこの key を好きな名称に変更することができます。
+    </para>
+
+    <programlisting role="html">
+// テンプレート変数による置換タグを id="***" とする
+$master-&gt;setVariableKey('id');</programlisting>
+  </section>
+
+</section>

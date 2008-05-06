@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="template.foreach">
+  <title>繰り返し処理 (foreach)</title>
+
+  <section id="variable.foreach">
+    <title>変数値による繰り返し処理</title>
+
+    <para>
+      プログラムによって与えられたテンプレート変数の値が配列もしくはオブジェクトである場合、
+      その値の要素数分、テンプレート上において繰り返し処理を行うことができます。
+    </para>
+
+    <para>
+      テンプレート上の繰り返し処理は、PHP の foreach 〜 as 構文のような記述を行います。
+      HTML タグに対して、「foreach」属性の値にベースとなる配列もしくはオブジェクトのテンプレート変数の名称をセットし、
+      あわせて「as」属性の値に foreach 属性でセットした変数を展開したものを格納する新たな変数名をセットします。
+    </para>
+
+    <example>
+      <title>foreach〜as 属性による繰り返し処理</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>テンプレート</term>
+          <listitem>
+            <programlisting role="html">
+&lt;div foreach="item_list" as="item"&gt;
+  わたしは &lt;span key="item"&gt;アイテム&lt;/span&gt; を持っています.
+&lt;/div&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>PHPコード</term>
+          <listitem>
+            <programlisting role="php">
+$master = new Rune_Master('/path/to/templateDirectory');
+
+$variable = new stdClass();
+$variable->item_list = array('staff', 'book', 'stone');
+$master-&gt;assign($variable);
+$master-&gt;cast('function');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+&lt;div &gt;
+  わたしは &lt;span key="item"&gt;staff&lt;/span&gt; を持っています.
+&lt;/div&gt;&lt;div &gt;
+  わたしは &lt;span key="item"&gt;book&lt;/span&gt; を持っています.
+&lt;/div&gt;&lt;div &gt;
+  わたしは &lt;span key="item"&gt;stone&lt;/span&gt; を持っています.
+&lt;/div&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+
+    <para>
+      ここでは、as 属性の値としてセットされている item が
+      PHP プログラム内で登場していない点に注目してください。
+      foreach 属性の値でセットされている item_list 配列が展開すると同時に、
+      配列内の１つの要素が item テンプレート変数に格納されます。
+      作成された item 変数は通常のテンプレート変数のように利用できますので、
+      key 属性の値として利用して置換処理を行っています。
+    </para>
+    
+    <para>
+      繰り返しの対象となるのは、foreach〜as 属性が設定されているブロック以下、
+      すなわち今回の例ですと &lt;div&gt; 〜 &lt;/div&gt; までとなり、
+      それらが item_list 配列の要素数回繰り返されます。
+      また、as 属性によって割り当てられるテンプレート変数も、そのブロック内でのみ利用できます。
+    </para>
+
+    <para>
+      as 属性によるテンプレート変数は、
+      前節で紹介したテンプレート変数の利用法と何ら違いはありません。
+      たとえばリストを展開した結果が連想配列、もしくはオブジェクトであったとしても、
+      次のようにそのままアクセスできます。
+    </para>
+
+    <programlisting role="html">
+&lt;table&gt;
+  &lt;tr foreach="person_list" as="person"&gt;
+    &lt;td key="person.id"&gt;ID&lt;/td&gt;
+    &lt;td key="person.name"&gt;名前&lt;/td&gt;
+    &lt;td key="person.email"&gt;メールアドレス&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</programlisting>
+
+    <para>
+      これら例では、foreach〜as 属性のタグ内部である要素のタグに
+      key 属性を設定していますが、次のように同一タグでも動作します。
+    </para>
+
+    <programlisting role="html">
+&lt;p foreach="message_list" as="message" key="message"&gt;メッセージの繰り返し&lt;/p&gt;</programlisting>
+
+    <para>
+      また、連想配列やオブジェクトに対して繰り返し処理を行う際、
+      その要素名やプロパティ名もテンプレート変数値で参照したいと思うかもしれません。
+      その場合には、as 属性の値にカンマ（,）で区切った形式で２つのテンプレート変数をセットします。
+    </para>
+
+    <programlisting role="html">
+&lt;div foreach="item_list" as="key, value"&gt;
+  私は &lt;span key="key"&gt;要素&lt;/span&gt; の &lt;span key="value"&gt;値&lt;/span&gt; を持っています.
+&lt;/div&gt;</programlisting>
+
+  </section>
+
+  <section id="nest.foreach">
+    <title>繰り返し処理のネスト</title>
+
+    <para>
+      froeach〜as 属性による処理はネスト（入れ子、多階層）することもできます。
+    </para>
+
+    <example>
+      <title>繰り返し処理のネスト</title>
+
+      <programlisting role="html">
+&lt;div foreach="person_list" as="person"&gt;
+  &lt;div foreach="person" as="key, value"&gt;
+    &lt;span key="key"&gt;要素名&lt;/span&gt;: &lt;b key="value"&gt;値&lt;/b&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</programlisting>
+    </example>
+
+  </section>
+
+</section>
