@@ -30,7 +30,7 @@
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  */
 
 require_once dirname(__FILE__) . '/imports/html_dom_parser.php';
@@ -98,6 +98,10 @@ class Rune_Stone
      */
     public function setTemplate($template)
     {
+        if (!file_exists($template)) {
+            throw new Exception("Failed opening '$template': No such file.");
+        }
+
         ob_start();
         include $template;
         $buffer = ob_get_contents();
