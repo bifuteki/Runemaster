@@ -30,7 +30,7 @@
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  */
 
 require_once dirname(__FILE__) . '/../../imports/html_dom_parser.php';
@@ -108,29 +108,22 @@ class Rune_Spell_Variable_Controller
         $loopSource = $this->_spell->getPropertyValue($node->foreach);
 
         if (is_null($loopSource)) {
-            $node->innertext = '';
-            $node->remove_attr('foreach');
-            $node->remove_attr('as');
+            $this->_clearNode($node);
             return false;
         }
 
         if (is_array($loopSource) && !count($loopSource)) {
-            $node->innertext = '';
-            $node->remove_attr('foreach');
-            $node->remove_attr('as');
+            $this->_clearNode($node);
             return false;
         }
 
         if (!is_array($loopSource) && !is_object($loopSource)) {
-            $node->innertext = '';
-            $node->remove_attr('foreach');
-            $node->remove_attr('as');
+            $this->_clearNode($node);
             return false;
         }
 
         if (!isset($node->as)) {
-            $node->innertext = '';
-            $node->remove_attr('foreach');
+            $this->_clearNode($node);
             return false;
         } 
 
@@ -143,8 +136,8 @@ class Rune_Spell_Variable_Controller
             $asValue = $mapAs[1];
         }
             
-        $node->remove_attr('foreach');
-        $node->remove_attr('as');
+        $node->removeAttribute('foreach');
+        $node->removeAttribute('as');
         $outertext = $node->outertext;
         $node->outertext = '';
 
@@ -182,7 +175,7 @@ class Rune_Spell_Variable_Controller
     /**
      * adjustIfRule
      * 
-     * @param  object $dom
+     * @param  object $node
      * @return void
      */
     public function adjustIfRule(&$node)
@@ -197,10 +190,10 @@ class Rune_Spell_Variable_Controller
         $name = $node->if;
         $value = $this->_spell->getPropertyValue($name);
         if ($value) {
-            $node->remove_attr('if');
+            $node->removeAttribute('if');
         } else {
             $node->outertext = '';
-            $node->remove_attr('if');
+            $node->removeAttribute('if');
         }
 
         return true;
@@ -211,6 +204,22 @@ class Rune_Spell_Variable_Controller
     /**#@+
      * @access private
      */
+
+    // }}}
+    // {{{ _clearNode
+
+    /**
+     * _clearNode
+     * 
+     * @param  object $node
+     * @return void
+     */
+    private function _clearNode(&$node)
+    {
+        $node->innertext = '';
+        $node->removeAttribute('foreach');
+        $node->removeAttribute('as');
+    }
 
     /**#@-*/
 
