@@ -30,7 +30,7 @@
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  */
 
 // {{{ Rune_Runic
@@ -60,6 +60,7 @@ class Rune_Runic
 
     protected $_templateName;
     protected $_templateDirectory;
+    protected $_templateSuffix;
 
     protected $_parameters = array();
 
@@ -103,6 +104,19 @@ class Rune_Runic
     }
 
     // }}}
+    // {{{ getTemplateDirectory
+
+    /**
+     * Gets template directory.
+     * 
+     * @return string
+     */
+    public function getTemplateDirectory()
+    {
+        return $this->_templateDirectory;
+    }
+
+    // }}}
     // {{{ setTemplate
 
     /**
@@ -114,6 +128,33 @@ class Rune_Runic
     public function setTemplate($templateName)
     {
         $this->_templateName = $templateName;
+    }
+
+    // }}}
+    // {{{ setTemplateSuffix
+
+    /**
+     * Sets template file suffix.
+     * 
+     * @param string $templateSuffix
+     * @return void
+     */
+    public function setTemplateSuffix($templateSuffix)
+    {
+        $this->_templateSuffix = $templateSuffix;
+    }
+
+    // }}}
+    // {{{ getTemplateSuffix
+
+    /**
+     * Gets template file suffix.
+     * 
+     * @return string
+     */
+    public function getTemplateSuffix()
+    {
+        return $this->_templateSuffix;
     }
 
     // }}}
