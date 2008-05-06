@@ -2,8 +2,8 @@
 <head>
 </head>
 <body>
-  <span foreach="checkboxes" as="c" >
-    <input type="checkbox" name="checkbox" value="{c.value}" /><span key="c.name" omitter="true"></span>
+  <span foreach="checkboxes" as="c">
+    <input type="checkbox" name="checkbox[]" value="{c.value}" /><span key="c.name" omitter="true"></span>
   </span>
 </body>
 </html>

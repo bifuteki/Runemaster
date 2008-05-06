@@ -4,7 +4,7 @@
 /* 
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  * @since      File available since Release 0.1.0
  */
 
@@ -120,7 +120,7 @@ MESSAGE;
     {
         $values = new stdClass();
         $values->item = 2;
-        $values->person = 3;
+        $values->person = array(3);
 
         $master = $this->_master;
         $master->setFormValue('example', $values);
