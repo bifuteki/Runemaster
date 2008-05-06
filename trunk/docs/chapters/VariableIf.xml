@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="template.variable.evaluation">
+  <title>条件判定 (if)</title>
+
+  <section id="if.variable.evaluation">
+    <title>評価による表示/非表示切り替え</title>
+
+    <para>
+      「if」属性を利用すれば、テンプレート変数の値を利用して評価を行い、
+      その結果に応じて情報の表示、非表示を切り替えることができます。
+    </para>
+
+    <example>
+      <title>if 属性による表示、非表示処理</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>テンプレート</term>
+          <listitem>
+            <programlisting role="html">
+&lt;div if="staff"&gt;私は&lt;span key="staff"&gt;杖&lt;/span&gt;を持っています。&lt;/div&gt;
+&lt;div if="book"&gt;私は&lt;span key="book"&gt;本&lt;/span&gt;を持っています。&lt;/div&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>PHPコード</term>
+          <listitem>
+            <programlisting role="php">
+$master = new Rune_Master('/path/to/templateDirectory');
+
+$variable = new stdClass();
+$variable->book = 'Runemaster マニュアル';
+$master-&gt;assign($variable);
+$master-&gt;cast('example');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+
+&lt;div if="book"&gt;私は&lt;span key="book"&gt;Runemaster マニュアル&lt;/span&gt;を持っています。&lt;/div&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+
+    <para>
+      この例では、テンプレート上の &lt;div&gt; タグに if 属性の値として
+      staff, book をセットしています。
+      一方プログラムによるテンプレート変数の割り当てが
+      book のみであり、staff には行われていません。
+      この状態で描写を試みると、if 属性によって staff, book の値が評価され、
+      変数割り当てが行われている book 側の内容は表示されるのに対し、
+      割り当てが行われていない staff 側の内容は表示されなくなります。
+    </para>
+    
+  </section>
+
+
+  <section id="evaluation.by.expression">
+    <title>評価式による判定</title>
+
+    <para>
+      表示、非表示の判定は、
+      値そのもの評価だけでなく「評価式」によっての判定も可能です。
+    </para>
+
+    <example>
+      <title>評価式による判定</title>
+
+      <programlisting role="html">
+&lt;span if="class === 'Runemaster'"&gt;Hi, Runemaster!&lt;/span&gt;
+&lt;span if="count(items) &gt; 10"&gt;A lot items.&lt;/span&gt;
+&lt;span if="book &amp;&amp; stone"&gt;do cast spell.&lt;/span&gt;</programlisting>
+    </example>
+
+    <note>
+      <para>
+        残念ながら、if 属性の値として利用できる評価式については、
+        複数条件を多段で繋げる (括弧による評価を積み重ねるような)
+        複雑な評価を行うことはできません。
+        複数条件による総合評価によって表示是非を切り替えたい場合は、
+        予め PHP プログラムによる評価値をテンプレート変数に代入しておくか、
+        評価を行うための専用のクラスメソッドを作成し、引数として値を代入して評価を行うようにしましょう。
+        (その方がテンプレートデータの可読性にも繋がります。)
+      </para>
+    </note>
+
+  </section>
+
+  <section id="reversal.evaluation">
+    <title>評価値の反転</title>
+
+    <para>
+      評価対象となる変数値、もしくは評価式の先頭に「!」感嘆符
+      (エクスクラメーションマーク、ビックリマーク) を付与することで、
+      評価結果の反転をさせ、その結果を利用することができます。
+    </para>
+
+    <example>
+      <title>評価値の反転</title>
+
+      <para>
+        変数 foo = 1, bar = 0 の場合。
+      </para>
+
+      <programlisting role="html">
+&lt;span if="foo"&gt;foo は掲載される&lt;/span&gt; 
+&lt;span if="!foo"&gt;!foo は掲載されない&lt;/span&gt;
+
+&lt;span if="foo &amp;&amp; foo"&gt;foo &amp;&amp; foo は掲載される&lt;/span&gt;
+&lt;span if="foo &amp;&amp; !foo"&gt;foo &amp;&amp; !foo は掲載されない&lt;/span&gt;
+&lt;span if="!foo &amp;&amp; foo"&gt;!foo &amp;&amp; foo は掲載されない&lt;/span&gt;
+
+&lt;span if="foo &amp;&amp; bar"&gt;foo &amp;&amp; bar は掲載されない&lt;/span&gt;
+&lt;span if="foo &amp;&amp; !bar"&gt;foo &amp;&amp; !bar は掲載される&lt;/span&gt;</programlisting>
+    </example>
+
+  </section>
+
+</section>

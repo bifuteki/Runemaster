@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="start">
+  <title>はじめに</title>
+
+  <section id="runemaster.start">
+    <title>はじめに</title>
+
+    <para>
+      Runemaster は、Web プログラム向けに提供される
+      DOM ベースな HTML テンプレートエンジンです。
+    </para>
+
+    <section id="what.is.runemaster">
+      <title>Runemaster とは?</title>
+
+      <para>
+        Runemaster は、Web サイト上で描写する
+        HTML ページの内容を動的に変化させることをシンプルに実現する機能を提供します。
+      </para>
+
+      <para>
+        Web サイトでは、ページを閲覧しているユーザに適した情報（ユーザ名や興味のあるアイテム）を掲載したり、
+        検索条件によって異なる結果を保持するリスト内のレコードを、特定のルールに従って描写したり、
+        また入力フォーム内のテキストボックスやチェックボックスに入力、指定されている値をセットしたりと、
+        プログラムによって HTML の内容を変化させるケースが多々あります。
+        このようなシーンにおいて、目的にあわせて描写内容を可変させるテンプレートシステムとして、
+        利用することを想定しています。
+      </para>
+
+      <para>
+        Runemaster の面白い特徴として、「DOM」として表現される Element Attribute
+        の値にアクセスすることで、様々な動きや内容の変更を簡単に行うことができる機構をもっていることです。
+        この機構により、ページ内容として描写する内容のベースとなる「テンプレート」のデータは
+        HTML ファイルそのものとなっており、テンプレートデータを HTML ファイルとして
+        Web ブラウザを通して参照することもできますし、エディタで開いての参照や編集も容易に行うことができます。
+        すなわち、テンプレートデータでありながら、 HTML としての可読性がそのまま引き継がれているといえます。
+      </para>
+    </section>
+
+    <section id="runemaster.simple.example">
+      <title>シンプルな例</title>
+
+      <para>
+        Runemaster を使ったとてもシンプルな例を書いてみましょう。
+        まずはWebページとして描写したい内容として、次のような HTML ファイルを準備します。
+        ここでは「Hello.html」というファイル名として作成します。
+      </para>
+
+      <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+
+&lt;body&gt;
+&lt;h1&gt;Hello, World!&lt;/h1&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</programlisting>
+
+      <para>
+        続いて次のような PHP プログラムを、先ほどの Hello.html と同じ場所に準備します。
+        ここでは「hello.php」という PHP ファイル名として作成します。
+      </para>
+
+      <programlisting role="php">
+1: require_once 'Rune/Master.php';
+2:
+3: $master = new Rune_Master('./');
+4: $master-&gt;cast('Hello');
+</programlisting>
+
+      <para>
+        この hello.php を実行します。（できれば、Webブラウザによるアクセスによって。
+        ただしコマンドラインから実行しても理解はできるはずです。）
+        画面には Hello.html として作成した HTML の内容がそのまま表示されます。
+      </para>
+
+      <para>
+        実際のところ何もしていないという余りにもシンプルな例でしたので、
+        もう少し Runemaster の能力を使う例を紹介しましょう。
+        先ほどの HTML ファイル内において、&lt;h1&gt; タグに対して「key="title"」という
+        属性を付与します。
+      </para>
+
+      <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+
+&lt;body&gt;
+&lt;h1 key="title"&gt;Hello, World!&lt;/h1&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</programlisting>
+
+      <para>
+        さらにプログラムの hello.php において、assign メソッドを実行するコードを付与します。
+        (4行目)
+      </para>
+
+      <programlisting role="php">
+1: require_once 'Rune/Master.php';
+2: 
+3: $master = new Rune_Master('./');
+4: $master-&gt;assign(array('title' => 'Hi, Runemaster!'));
+5: $master-&gt;cast('Hello');
+</programlisting>
+
+      <para>
+        再び hello.php を実行します。画面には「Hello, World!」と表示されていた箇所が
+        「Hi, Runemaster!」という言葉に置き換わって表示されることになります。
+      </para>
+
+      <para>
+        テンプレート内、すなわち HTML の特定箇所のテキスト内容を変化させたい場合に、
+        元々のテキスト内容（Hello, World! という文字）を一切変更する必要はありません。
+        既にマーキングされている &lt;h1&gt; タグに簡単な属性を付与するだけです。
+      </para>
+
+    </section>
+  </section>
+
+  <section id="runemaster.platform">
+    <title>動作環境</title>
+
+    <para>
+      Runemaster を利用するには、PHP 5.2.0 以上が動作する環境が必要になります。
+    </para>
+  </section>
+
+</chapter>

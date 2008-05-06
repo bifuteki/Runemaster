@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="template.node.manipulation">
+  <title>ノードの操作</title>
+
+  <section id="manipulation">
+    <title>コンテンツをノードとして挿入する</title>
+
+    <para>
+      指定するエレメントに対して、そのエレメントが保持するノードの１つとしてコンテンツ（エレメント、ノードなど）を挿入することができます。
+    </para>
+
+    <para>
+      コンテンツを対象エレメントの末尾のノードとして挿入するには append メソッド、
+      先頭のノードとして挿入するには prepend メソッドを使用します。
+      各メソッドの第一パラメータの値として、エレメントの指定を行うため前節で紹介したセレクタルールをセットし、また第二パラメータにて挿入する値をセットします。
+    </para>
+
+    <example>
+      <title>ノードの挿入（先頭、末尾）</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>テンプレート</term>
+          <listitem>
+            <programlisting role="php">
+&lt;span&gt;Hello, World!&lt;/span&gt;
+&lt;div id="foo"&gt;Challenge Carving!&lt;/div&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <variablelist>
+        <varlistentry>
+          <term>PHP コード</term>
+          <listitem>
+            <programlisting role="php">
+$master = new Rune_Master('/path/to/templateDirectory');
+
+$master->append('span', 'Hi, Runemaster!');
+$master->prepend('#foo', '&lt;b&gt;Change Runie!&lt;/b&gt; and ');
+$master-&gt;cast('example');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+&lt;span&gt;Hello, World!Hi, Runemaster!&lt;/span&gt;
+&lt;div id="foo"&gt;&lt;b&gt;Change Runie!&lt;/b&gt; and Challenge Carving!&lt;/div&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+
+  </section>
+
+</section>
+

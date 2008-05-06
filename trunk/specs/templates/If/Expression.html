@@ -1,0 +1,27 @@
+<html>
+<head>
+</head>
+<body>
+  <div>
+    <span if="foo > 5">Message A</span>
+    <span if="bar > 5">Message B</span>
+    <span if="baz && qux">Message C</span>
+    <span if="baz && 0">Message D</span>
+    <span if="is_numeric(baz) || 0">Message E</span>
+    <span if="foo == 10">Message F</span>
+    <span if="foo == '10'">Message G</span>
+    <span if="foo === 10">Message H</span>
+    <span if="foo === '10'">Message I</span>
+    <span if="1 && 2">Message J</span>
+    <span if="1 && 0">Message K</span>
+    <span if="!(1 && 0)">Message L</span>
+    <span if="1 && !0">Message M</span>
+    <span if="!(foo > 5)">Message N</span>
+    <span if="!(foo < 5)">Message O</span>
+    <span if="1 && !1">Message P</span>
+    <span if="1 && 1 && 1">Message Q</span>
+    <span if="1 && 1 && !1">Message R</span>
+    <span if="1 && 1 && !0">Message S</span>
+  </div>
+</body>
+</html>

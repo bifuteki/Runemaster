@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="template.form.select.element">
+  <title>セレクト要素の操作</title>
+
+  <section id="select.options.setting">
+    <title>オプションリストを設定する</title>
+
+    <para>
+      セレクト (&lt;SELECT&gt;) 要素内のオプションリストを直接テンプレートデータ内に記述することができますが、
+      プログラムからこのリスト内容を設定することもできます。
+      これにより動的にセレクト要素内のオプションリストを簡単に変化させることができるようになります。
+    </para>
+
+    <para>
+      プログラムからオプションリストを設定する際のテンプレート側データもいたってシンプルです。
+      ただ単純に name 属性を持ったセレクト要素を準備しておきます。
+      そのセレクト要素内にオプションリストを記述しておく必要はありません。
+    </para>
+
+    <programlisting role="html">
+&lt;form name="form1"&gt;
+  &lt;select name="items"&gt;
+  &lt;/select&gt;
+&lt;/form&gt;</programlisting>
+
+    <para>
+      オプションリストの設定には、setOption メソッドを使用します。
+      第一パラメータには設定したいセレクト要素の名称 (name 属性の値)、
+      第二パラメータには設定したいリスト内容を連想配列として作成したものをセットします。
+    </para>
+
+    <programlisting role="php">
+$master = new Rune_Master('/path/to/templateDirectory');
+
+$items = array('1' => '杖', '2' => '書物', '3' => 'ストーン');
+
+$master-&gt;setOption('items', $items);
+$master-&gt;cast('example');</programlisting>
+
+    <para>
+      以上のコードを実行すると、次のような結果を得ることができます。
+    </para>
+
+    <programlisting role="html">
+&lt;form name="form1"&gt;
+  &lt;select name="items"&gt;
+    &lt;option value="1"&gt;杖&lt;/option&gt;
+    &lt;option value="2"&gt;書物&lt;/option&gt;
+    &lt;option value="3"&gt;ストーン&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/form&gt;</programlisting>
+
+  </section>
+
+  <section id="set.value.with.option.list">
+    <title>オプションリストを設定した要素を選択状態にする</title>
+
+    <para>
+      setOption とあわせて、そのセレクト要素の値を setFormValue を使って設定することで、
+      プログラムから設定されたオプションリストをもつセレクト要素を選択状態にすることができます。
+    </para>
+
+    <example>
+      <title>動的リストをもつセレクト要素を選択状態にする</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>PHP コード</term>
+          <listitem>
+            <programlisting role="php">
+$formValue = new stdClass();
+$formValue->items = 2;
+$items = array('1' => '杖', '2' => '書物', '3' => 'ストーン');
+
+$master-&gt;setFormValue('form1', $formValue);
+$master-&gt;setOption('items', $items);
+
+$master-&gt;cast('example');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+&lt;form name="form1"&gt;
+  &lt;select name="items"&gt;
+    &lt;option value="1"&gt;杖&lt;/option&gt;
+    &lt;option value="2"  selected="selected"&gt;書物&lt;/option&gt;
+    &lt;option value="3"&gt;ストーン&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/form&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+
+  </section>
+
+</section>
+

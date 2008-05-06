@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="template.form.value">
+  <title>フォーム内の各要素への処理</title>
+
+  <section id="form.value.setting">
+    <title>フォーム要素への値のセット</title>
+
+    <para>
+      HTML ページのフォームには &lt;INPUT&gt;, &lt;SELECT&gt; といった様々な要素が存在しており、
+      その要素の内容や種類 (type) にあわせて value 属性や checked 属性、
+      selected 属性といった適当な属性に対して値を設定することで、
+      目的に沿った入力フォームフィールドを表現しています。
+    </para>
+
+    <para>
+      これら異なる方法によって表現されるフォーム要素の値も、
+      Runemaster を使えばとても簡単にセットすることができます。
+    </para>
+
+    <para>
+      フォーム要素の値をセットするために、テンプレート側フォームの
+      HTML は特別な記述をすることはほとんどありません。
+      値を適応したいフォーム (&lt;FORM&gt;)、および要素に対して name 属性で名称を付与する程度です。
+      これは HTML ページ上に入力フォームを作成する際に、
+      当然のように行っているであろう HTML 記述でしょう。
+    </para>
+
+    <programlisting role="html">
+&lt;form name="form1"&gt;
+  &lt;input type="text" name="email" /&gt;
+&lt;/form&gt;</programlisting>
+
+    <para>
+      一方プログラムでは、各要素の name 属性に対応する形で値を設定します。
+      なおここでは、前節までに登場したテンプレート変数とは異なる「フォーム値」として、
+      setFormValue メソッドを利用して値を設定することになります。
+      setFormValue メソッドの第一パラメータには &lt;FORM&gt; に設定した
+      name 属性の値をセットし、第二パラメータには各要素の name 属性の値をプロパティとしたオブジェクト、もしくはキーとした連想配列のどちらかをセットします。
+    </para>
+
+    <programlisting role="php">
+$formValue = new stdClass();
+$formValue-&gt;email = 'foo@example.com';
+
+$master-&gt;setFormValue('form1', $formValue);
+$master-&gt;cast('example');</programlisting>
+
+    <para>
+      以上のコードを実行すると、次のような結果を得ることができます。
+      今回の例では、種類がテキスト (type="text") である場合の
+      &lt;INPUT&gt; 要素の値として 自動的に value 属性が追加され、
+      またその属性の値としてプログラム上でセットされたものが利用されています。
+    </para>
+
+    <programlisting role="html">
+&lt;form name="form1"&gt;
+  &lt;input type="text" name="email" value="foo@example.com"/&gt;
+&lt;/form&gt;</programlisting>
+
+    <para>
+      またラジオボタンとして表現されている要素に対して、
+      その要素をチェック状態にしたい場合も、先ほどの例とはほとんど違いはありません。
+    </para>
+
+    <programlisting role="html">
+&lt;form name="form1"&gt;
+  &lt;input type="radio" name="item" value="1" /&gt;杖
+  &lt;input type="radio" name="item" value="2" /&gt;書物
+&lt;/form&gt;</programlisting>
+
+    <para>
+      このようなラジオボタンが準備されているフォームにて「杖」側の要素をチェック状態にする場合、
+      プログラムではフォーム値の item を 1 としてセットします。
+    </para>
+
+    <programlisting role="php">
+$master = new Rune_Master('/path/to/templateDirectory');
+
+$formValue = new stdClass();
+$formValue-&gt;item = 1;
+
+$master-&gt;setFormValue('form1', $formValue);
+$master-&gt;cast('example');</programlisting>
+
+    <para>
+      以上のコードの実行結果は次のようになります。
+      テキストの例とは異なり、ラジオボタン値として value="1" の要素へ
+      checked 属性が追加されます。
+    </para>
+
+    <programlisting role="html">
+&lt;form name="form1"&gt;
+  &lt;input type="radio" name="item" value="1" checked="checked" /&gt;杖
+  &lt;input type="radio" name="item" value="2" /&gt;書物
+&lt;/form&gt;</programlisting>
+
+  </section>
+
+  <section id="form.value.setting">
+    <title>フォーム値のエスケープ処理</title>
+
+    <para>
+      テンプレート変数と同様、
+      setFormValue メソッドによってセットされたフォーム値は、
+      自動的にHTML エンティティに変換する処理が自動的に行われます。
+      これにより、思いがけない形でスクリプトが不正に実行されるといった問題を未然に防ぐことができます。
+    </para>
+
+    <example>
+      <title>フォーム値のHTMLエンティティ変換</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>PHP コード</term>
+          <listitem>
+            <programlisting role="php">
+$formValue->field = '" onkeydown="alert(\'hello\')';
+$master-&gt;assign($variable);
+$master-&gt;cast('WithOnKeyDown');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+&lt;form name="form1"&gt;
+  &lt;input type="radio" name="item" value="&amp;quot; onkeydown=&amp;quot;alert(&amp;#039;hello&amp;#039;)" /&gt;
+&lt;/form&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+
+    <para>
+      なおテンプレート変数とは異なる点として、
+      フォーム値に含まれる全ての文字を HTML エンティティに変換する処理を実施し、
+      またフォーム値に対して変換処理を行わないようにすることができないようになっています。
+    </para>
+
+  </section>
+
+</section>
+
