@@ -4,7 +4,7 @@
 /* 
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  * @since      File available since Release 0.2.0
  */
 
@@ -72,6 +72,26 @@ class Describeレイアウト機能 extends SpecCommon
         $master = $this->_master;
         $master->setLayout('Inner', $this->_templateDirectory . '/Layout');
         $display = rendererInTest($master, 'Layout/Content');
+        $result = file_get_contents('./results/Layout/Inner.html');
+
+        $this->spec($display)->should->be($result);
+    }
+
+    public function it指定タグ内部に記述してあるテキストをレイアウトへ挿入するコンテンツとして利用できる()
+    {
+        $master = $this->_master;
+        $master->setLayout('Layout/Inner');
+        $display = rendererInTest($master, 'Layout/ContentsInInner');
+        $result = file_get_contents('./results/Layout/Inner.html');
+
+        $this->spec($display)->should->be($result);
+    }
+
+    public function it指定タグを含めたテキストをレイアウトへ挿入するコンテンツとして利用できる()
+    {
+        $master = $this->_master;
+        $master->setLayout('Layout/Outer');
+        $display = rendererInTest($master, 'Layout/ContentsInOuter');
         $result = file_get_contents('./results/Layout/Inner.html');
 
         $this->spec($display)->should->be($result);

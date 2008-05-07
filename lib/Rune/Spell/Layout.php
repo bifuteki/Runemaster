@@ -30,7 +30,7 @@
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  */
 
 require_once 'Rune/Spell/Common.php';
@@ -99,14 +99,29 @@ class Rune_Spell_Layout extends Rune_Spell_Common
 
         $layoutStone = new Rune_Stone();
 
+        $contents = null;
+        $contentNodes = Rune_Master::find($stone, '[contents]');
+        if (count($contentNodes)) {
+            foreach ($contentNodes as $node) {
+                if ($node->contents === 'inner') {
+                    $contents .= $node->innertext;
+                } elseif ($node->contents === 'outer') {
+                    $node->removeAttribute('contents');
+                    $contents .= $node->outertext;
+                }
+            }
+        } else {
+            $contents = Rune_Master::scan($stone);
+        }
+
         try {
             $layoutStone->setTemplate($layoutFile);
             foreach (Rune_Master::find($layoutStone, '[content_for_layout]') as $node) {
                 if ($node->content_for_layout === 'inner') {
-                    $node->innertext = Rune_Master::scan($stone);
+                    $node->innertext = $contents;
                     $node->removeAttribute('content_for_layout');
                 } elseif ($node->content_for_layout === 'outer') {
-                    $node->outertext = Rune_Master::scan($stone);
+                    $node->outertext = $contents;
                 }
             }
 
