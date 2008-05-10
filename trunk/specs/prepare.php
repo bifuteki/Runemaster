@@ -4,7 +4,7 @@
 /**
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  * @since      File available since Release 0.1.0
  */
 
@@ -15,10 +15,10 @@ set_include_path(realpath(dirname(__FILE__) . '/../lib') .
 require_once 'SpecCommon.php';
 require_once 'Rune/Master.php';
 
-function rendererInTest($master, $file)
+function rendererInTest($master, $file, $variables = null)
 {
     ob_start();
-    $master->cast($file);
+    $master->cast($file, $variables);
     $buffer = ob_get_contents();
     ob_end_clean();
 
