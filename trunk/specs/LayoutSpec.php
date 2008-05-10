@@ -47,7 +47,17 @@ class Describeレイアウト機能 extends SpecCommon
      * @access public
      */
 
-    public function it指定タグの内部にコンテンツを置換挿入できる()
+    public function it指定タグの内部へコンテンツを置換挿入できる()
+    {
+        $master = $this->_master;
+        $master->setLayout('Layout/Basic');
+        $display = rendererInTest($master, 'Layout/Content');
+        $result = file_get_contents('./results/Layout/Inner.html');
+
+        $this->spec($display)->should->be($result);
+    }
+
+    public function it指定タグの内部へと明示的に指定してコンテンツを置換挿入できる()
     {
         $master = $this->_master;
         $master->setLayout('Layout/Inner');
@@ -57,7 +67,7 @@ class Describeレイアウト機能 extends SpecCommon
         $this->spec($display)->should->be($result);
     }
 
-    public function it指定タグの外部にコンテンツを置換挿入できる()
+    public function it指定タグの外部へと明示的に指定してコンテンツを置換挿入できる()
     {
         $master = $this->_master;
         $master->setLayout('Layout/Outer');
@@ -81,13 +91,23 @@ class Describeレイアウト機能 extends SpecCommon
     {
         $master = $this->_master;
         $master->setLayout('Layout/Inner');
+        $display = rendererInTest($master, 'Layout/ContentsWithOther');
+        $result = file_get_contents('./results/Layout/Inner.html');
+
+        $this->spec($display)->should->be($result);
+    }
+
+    public function it指定タグ内部に記述してあると明示的にしたテキストをレイアウトへ挿入するコンテンツとして利用できる()
+    {
+        $master = $this->_master;
+        $master->setLayout('Layout/Inner');
         $display = rendererInTest($master, 'Layout/ContentsInInner');
         $result = file_get_contents('./results/Layout/Inner.html');
 
         $this->spec($display)->should->be($result);
     }
 
-    public function it指定タグを含めたテキストをレイアウトへ挿入するコンテンツとして利用できる()
+    public function it指定タグ外部を含めると明示的にしたテキストをレイアウトへ挿入するコンテンツとして利用できる()
     {
         $master = $this->_master;
         $master->setLayout('Layout/Outer');

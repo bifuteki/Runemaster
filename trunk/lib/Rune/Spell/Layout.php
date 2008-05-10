@@ -103,7 +103,9 @@ class Rune_Spell_Layout extends Rune_Spell_Common
         $contentNodes = Rune_Master::find($stone, '[contents]');
         if (count($contentNodes)) {
             foreach ($contentNodes as $node) {
-                if ($node->contents === 'inner') {
+                if ($node->contents === true
+                    || $node->contents === 'inner'
+                    ) {
                     $contents .= $node->innertext;
                 } elseif ($node->contents === 'outer') {
                     $node->removeAttribute('contents');
@@ -117,7 +119,9 @@ class Rune_Spell_Layout extends Rune_Spell_Common
         try {
             $layoutStone->setTemplate($layoutFile);
             foreach (Rune_Master::find($layoutStone, '[content_for_layout]') as $node) {
-                if ($node->content_for_layout === 'inner') {
+                if ($node->content_for_layout === true
+                    || $node->content_for_layout === 'inner'
+                    ) {
                     $node->innertext = $contents;
                     $node->removeAttribute('content_for_layout');
                 } elseif ($node->content_for_layout === 'outer') {
