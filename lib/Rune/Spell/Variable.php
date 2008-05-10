@@ -30,10 +30,9 @@
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  */
 
-require_once dirname(__FILE__) . '/../imports/html_dom_parser.php';
 require_once 'Rune/Spell/Common.php';
 require_once 'Rune/Spell/Variable/Controller.php';
 
