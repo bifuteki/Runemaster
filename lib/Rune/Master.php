@@ -138,9 +138,10 @@ class Rune_Master
      * Casts html.
      * 
      * @param string $templateName
+     * @param array  $variables
      * @return void
      */
-    public function cast($templateName)
+    public function cast($templateName, $variables = null)
     {
         $this->_runic->setTemplate($templateName);
         $this->_runic->setTemplateSuffix($this->_templateSuffix);
@@ -151,7 +152,7 @@ class Rune_Master
         $stone = new Rune_Stone();
 
         try {
-            $stone->setTemplate($templateFile);
+            $stone->setTemplate($templateFile, $variables);
             $spells = $this->_runic->getSpells();
             foreach ($spells as $spell) {
                 $spell->carve($stone);
