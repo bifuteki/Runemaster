@@ -33,7 +33,7 @@
  * @version    SVN: $Id$
  */
 
-require_once dirname(__FILE__) . '/imports/html_dom_parser.php';
+require_once dirname(__FILE__) . '/imports/simple_html_dom.php';
 require_once 'Rune/Runic.php';
 require_once 'Rune/Stone.php';
 

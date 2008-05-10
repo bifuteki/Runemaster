@@ -33,7 +33,7 @@
  * @version    SVN: $Id$
  */
 
-require_once dirname(__FILE__) . '/imports/html_dom_parser.php';
+require_once dirname(__FILE__) . '/imports/simple_html_dom.php';
 
 // {{{ Rune_Stone
 
@@ -84,7 +84,7 @@ class Rune_Stone
      */
     public function __construct()
     {
-        $this->_dom = new html_dom_parser();
+        $this->_dom = new simple_html_dom();
     }
 
     // }}}
@@ -147,7 +147,7 @@ class Rune_Stone
      */
     public function refresh()
     {
-        $dom = new html_dom_parser();
+        $dom = new simple_html_dom();
         $dom->load($this->_dom->save());
 
         $this->_dom->clear(); 
