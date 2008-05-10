@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="template.layout">
+  <title>レイアウト機能</title>
+
+  <section id="using.layout">
+    <title>共通レイアウトを使う</title>
+
+    <para>
+      Web サイトを構成するためいくつかのページを準備する際、
+      それらページの全てでヘッダ情報 (&lt;head&gt; ) や外観を共通のものとして利用したいことがあるでしょう。
+      そのような場合は、レイアウト機能を使用すればよいでしょう。
+    </para>
+
+    <para>
+      レイアウト機能を使用すれば、本来の描写内容として指定するテンプレートとは別に、
+      外観 (外枠) が記述してあるレイアウトテンプレートを別途指定することで、
+      レイアウトテンプレートとコンテンツテンプレートを組み合わせた結果を画面に描写させることができます。
+    </para>
+
+    <para>
+      レイアウト機能を使用するためには、
+      コンテンツテンプレートを指定する cast メソッドの前の段階において setLayout メソッドを使用し、レイアウトテンプレート名を指定します。
+      またレイアウトテンプレート内ではコンテンツ内容を挿入する場所として、適当のエレメントに「content_for_layout」属性を付与させたものを準備します。
+    </para>
+
+    <example>
+      <title>レイアウト機能の利用</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>レイアウトテンプレート (Layout.html)</term>
+          <listitem>
+            <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Runemasterマニュアル&lt;/title&gt;
+  &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+  &lt;link rel="stylesheet" href="style.css" type="text/css"&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div content_for_layout&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>コンテンツテンプレート (Content.html)</term>
+          <listitem>
+            <programlisting role="html">
+&lt;h1&gt;Hello, World!&lt;/h1&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>PHP コード</term>
+          <listitem>
+            <programlisting role="php">
+$master = new Rune_Master('/path/to/templateDirectory');
+
+$master->setLayout('Layout');
+$master-&gt;cast('Content');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Runemasterマニュアル&lt;/title&gt;
+  &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+  &lt;link rel="stylesheet" href="style.css" type="text/css"&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div&gt;&lt;h1&gt;Hello, World!&lt;/h1&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+
+  </section>
+
+
+  <section id="content.for.layout.target">
+    <title>コンテンツ挿入先の指定</title>
+
+    <para>
+      前述のとおり、レイアウトテンプレートではコンテンツテンプレートの内容の挿入先を指定するため、content_for_layout 属性を準備します。
+      この属性が指定されたエレメントの内部に、コンテンツ内容が挿入されることになります。
+    </para>
+
+    <programlisting role="html">
+&lt;div content_for_layout&gt;&lt;/div&gt;</programlisting>
+
+    <para>
+      これは、次のように書くことも可能で、同じ結果を得ることができます。
+    </para>
+
+    <programlisting role="html">
+&lt;div content_for_layout="inner"&gt;&lt;/div&gt;</programlisting>
+
+    <para>
+      またこれまでのようにレイアウトテンプレートの指定エレメントの内部にコンテンツを挿入するのではなく、
+      指定エレメントそのものをコンテンツに置き換えることもできます。
+      次の例のように置き換える対象となるエレメントの属性値として「content_for_layout="outer"」を準備することで、コンテンツの内容がそのエレメントに置き換わって描写されることになります。
+    </para>
+
+    <example>
+      <title>レイアウトの指定エレメントごとコンテンツに置き換える</title>
+
+      <variablelist>
+        <varlistentry>
+          <term>レイアウトテンプレート (Layout.html)</term>
+          <listitem>
+            <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Runemasterマニュアル&lt;/title&gt;
+  &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+  &lt;link rel="stylesheet" href="style.css" type="text/css"&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div content_for_layout="outer"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>コンテンツテンプレート (Content.html)</term>
+          <listitem>
+            <programlisting role="html">
+&lt;h1&gt;Hello, World!&lt;/h1&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>PHP コード</term>
+          <listitem>
+            <programlisting role="php">
+$master = new Rune_Master('/path/to/templateDirectory');
+
+$master->setLayout('Layout');
+$master-&gt;cast('Content');</programlisting>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>実行結果</term>
+          <listitem>
+            <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Runemasterマニュアル&lt;/title&gt;
+  &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+  &lt;link rel="stylesheet" href="style.css" type="text/css"&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;Hello, World!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+    </example>
+
+  </section>
+
+
+  <section id="layout.content.target">
+    <title>利用するコンテンツの範囲指定</title>
+
+    <para>
+      レイアウトへ挿入するコンテンツの内容は、テンプレート内の全てではなく範囲を限定させることも可能です。
+      利用するコンテンツの範囲を指定するには、コンテンツテンプレートにおいてその箇所をエレメントで囲み、「contents」属性を付与します。
+    </para>
+
+    <para>
+      次の例では &lt;div&gt; に contents 属性を付与させていますので、
+      そのエレメント内にある「&lt;h1&gt;Hello, World&lt;/h1&gt;」がコンテンツの内容として利用されることになります。
+    </para>
+
+    <example>
+      <title>レイアウトへ挿入するコンテンツを限定する</title>
+
+      <programlisting role="html">
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Runemaster チュートリアル&lt;/title&gt;
+  &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+  &lt;link rel="stylesheet" href="style.css" type="text/css"&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div contents&gt;&lt;h1&gt;Hello, World&lt;/h1&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+    </example>
+
+    <para>
+      これはレイアウトテンプレートにおける content_for_layout 属性と同じく、次のように書くことも可能です。
+    </para>
+
+    <programlisting role="html">
+&lt;div contents="inner"&gt;&lt;h1&gt;Hello, World&lt;/h1&gt;&lt;/div&gt;</programlisting>
+
+    <para>
+      また contents 属性の値として「outer」を設定することで、contents 属性をもったエレメントそのものをコンテンツとして使用するよう範囲指定することもできます。次の例では、&lt;div&gt; を含めた全てがコンテンツとなります。
+    </para>
+
+    <programlisting role="html">
+&lt;div contents="outer"&gt;&lt;h1&gt;Hello, World&lt;/h1&gt;&lt;/div&gt;</programlisting>
+
+  </section>
+
+
+</section>
+

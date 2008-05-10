@@ -58,6 +58,12 @@
       <xi:include href="chapters/NodeManipulation.xml" />
     </chapter>
 
+    <chapter id="layout">
+      <title>レイアウト</title>
+
+      <xi:include href="chapters/Layout.xml" />
+    </chapter>
+
     <chapter id="load.to.high.runemaster">
       <title>上級マスターへの道 (準備中)</title>
     </chapter>
