@@ -94,12 +94,17 @@ class Rune_Stone
      * Sets template.
      * 
      * @param string $template
+     * @param array $variables
      * @return void
      */
-    public function setTemplate($template)
+    public function setTemplate($template, $variables = null)
     {
         if (!file_exists($template)) {
             throw new Exception("Failed opening '$template': No such file.");
+        }
+
+        if (!is_null($variables)) {
+            extract((array)$variables, EXTR_SKIP);
         }
 
         ob_start();
