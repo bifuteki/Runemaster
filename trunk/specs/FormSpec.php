@@ -191,6 +191,19 @@ MESSAGE;
         $this->spec($display)->should->be($result);
     }
 
+    public function it設定する値にマルチバイト文字が使える()
+    {
+        $values = new stdClass();
+        $values->field = 'テスト';
+
+        $master = $this->_master;
+        $master->setFormValue('example', $values);
+        $display = rendererInTest($master, 'Form/MultibyteChars');
+        $result = file_get_contents('./results/Form/MultibyteChars.html');
+
+        $this->spec($display)->should->be($result);
+    }
+
     /**#@-*/
 
     /**#@+
