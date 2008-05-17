@@ -104,7 +104,7 @@ class Rune_Spell_FormValue extends Rune_Spell_Common
 
                 if (is_array($baseValue)) {
                     foreach ($baseValue as $value) {
-                        $value = htmlentities($value, ENT_QUOTES);
+                        $value = htmlspecialchars($value, ENT_QUOTES);
 
                         $selector = "input[name=\"{$name}[]\"]";
                         foreach (Rune_Master::find($formNode, $selector) as $node) {
@@ -124,7 +124,7 @@ class Rune_Spell_FormValue extends Rune_Spell_Common
 
                 } else {
 
-                    $value = htmlentities($baseValue, ENT_QUOTES);
+                    $value = htmlspecialchars($baseValue, ENT_QUOTES);
 
                     $selector = '[name="' . $name . '"]';
                     foreach (Rune_Master::find($formNode, $selector) as $node) {
