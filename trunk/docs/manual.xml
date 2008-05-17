@@ -23,6 +23,8 @@
         </legalnotice>
     </bookinfo>
 
+    <ulink url="http://hatotech.org/runemaster/">Runemaster サイト</ulink>
+
     <xi:include href="chapters/Start.xml" />
 
     <xi:include href="chapters/Installation.xml" />
