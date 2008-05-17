@@ -114,9 +114,11 @@ $master-&gt;cast('example');</programlisting>
           <term>PHP コード</term>
           <listitem>
             <programlisting role="php">
-$formValue->field = '" onkeydown="alert(\'hello\')';
-$master-&gt;assign($variable);
-$master-&gt;cast('WithOnKeyDown');</programlisting>
+/* onkeydown 属性を紛れ込ませようとする */
+$formValue->email = '" onkeydown="alert(\'hello\')';
+
+$master-&gt;setFormValue($formValue);
+$master-&gt;cast('example');</programlisting>
           </listitem>
         </varlistentry>
 
@@ -125,7 +127,7 @@ $master-&gt;cast('WithOnKeyDown');</programlisting>
           <listitem>
             <programlisting role="html">
 &lt;form name="form1"&gt;
-  &lt;input type="radio" name="item" value="&amp;quot; onkeydown=&amp;quot;alert(&amp;#039;hello&amp;#039;)" /&gt;
+  &lt;input type="text" name="email" value="&amp;quot; onkeydown=&amp;quot;alert(&amp;#039;hello&amp;#039;)" /&gt;
 &lt;/form&gt;</programlisting>
           </listitem>
         </varlistentry>

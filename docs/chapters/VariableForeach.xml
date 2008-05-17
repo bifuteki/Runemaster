@@ -117,7 +117,7 @@ $master-&gt;cast('function');</programlisting>
     <title>繰り返し処理のネスト</title>
 
     <para>
-      froeach〜as 属性による処理はネスト（入れ子、多階層）することもできます。
+      foreach〜as 属性による処理はネスト（入れ子、多階層）することもできます。
     </para>
 
     <example>
