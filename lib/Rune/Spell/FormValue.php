@@ -90,6 +90,10 @@ class Rune_Spell_FormValue extends Rune_Spell_Common
 
         foreach ($formValues as $formName => $formValue) {
 
+            if (!$formValue && !is_array($formValue) && !is_object($formValue)) {
+                continue;
+            }
+
             if ($formName) {
                 $formNodes = Rune_Master::find($stone, "form[name={$formName}]");
                 $formNode = $formNodes[0];
