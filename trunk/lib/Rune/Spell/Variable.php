@@ -206,7 +206,7 @@ class Rune_Spell_Variable extends Rune_Spell_Common
             return false;
         }
 
-        $this->setParameter('variables', $variables);
+        $this->setParameter('variables', (object)$variables);
     }
 
     // }}}
