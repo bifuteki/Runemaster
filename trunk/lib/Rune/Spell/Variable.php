@@ -282,7 +282,7 @@ class Rune_Spell_Variable extends Rune_Spell_Common
                                $attribute, $matches)
                     ) {
                     $value = $this->_getBracketValue($matches[1]);
-                    $node->$name = $value;
+                    $node->$name = str_replace($matches[0], $value, $node->$name);
                     $this->_isAssigned = true;
                 }
             }
