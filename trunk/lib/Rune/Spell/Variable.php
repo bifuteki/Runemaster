@@ -278,22 +278,26 @@ class Rune_Spell_Variable extends Rune_Spell_Common
                     break;
                 }
 
-                if (preg_match('/{([a-zA-Z_\x7f-\xff][a-zA-Z0-9.\[\]_\|\x7f-\xff]*)}/',
-                               $attribute, $matches)
+                if (preg_match_all('/{([a-zA-Z_\x7f-\xff][a-zA-Z0-9.\[\]_\|\x7f-\xff]*)}/',
+                                   $attribute, $matchesList, PREG_SET_ORDER)
                     ) {
-                    $value = $this->_getBracketValue($matches[1]);
-                    $node->$name = str_replace($matches[0], $value, $node->$name);
-                    $this->_isAssigned = true;
+                    foreach ($matchesList as $matches) {
+                        $value = $this->_getBracketValue($matches[1]);
+                        $node->$name = str_replace($matches[0], $value, $node->$name);
+                        $this->_isAssigned = true;
+                    }
                 }
             }
 
             break;
 
         case HDOM_TYPE_TEXT:
-            if (preg_match('/{([a-zA-Z_\x7f-\xff][a-zA-Z0-9.\[\]_\|\x7f-\xff]*)}/',
-                           $node->outertext, $matches)
+            if (preg_match_all('/{([a-zA-Z_\x7f-\xff][a-zA-Z0-9.\[\]_\|\x7f-\xff]*)}/',
+                               $node->outertext, $matchesList, PREG_SET_ORDER)
                 ) {
-                $this->_setVariableValueByBracket($node, $matches[1]);
+                foreach ($matchesList as $matches) {
+                    $this->_setVariableValueByBracket($node, $matches[1]);
+                }
             }
             break;
         }
