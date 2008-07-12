@@ -90,6 +90,12 @@ class Rune_Spell_Variable extends Rune_Spell_Common
         $this->_controller = new Rune_Spell_Variable_Controller($this->_runic, $this);
 
         foreach (Rune_Master::findAll($stone) as $node) {
+            if (isset($node->isOutput) && $node->isOutput === false) {
+                foreach ($node->children as $children) {
+                    $children->isOutput = false;
+                }
+                continue;
+            }
             $this->_replace($node);
         }
 

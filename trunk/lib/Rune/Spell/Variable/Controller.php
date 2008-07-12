@@ -193,6 +193,9 @@ class Rune_Spell_Variable_Controller
         } else {
             $node->outertext = '';
             $node->removeAttribute('if');
+            foreach ($node->children as $children) {
+                $children->isOutput = false;
+            }
         }
 
         return true;
