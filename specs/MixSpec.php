@@ -84,6 +84,7 @@ class Describe機能の複合利用 extends SpecCommon
         $variables->checkboxes = array(array('value' => 1, 'name' => 'foo'),
                                        array('value' => 2, 'name' => 'bar'),
                                        );
+        $formValue = new stdClass();
         $formValue->checkbox = array(2);
 
         $master = $this->_master;
