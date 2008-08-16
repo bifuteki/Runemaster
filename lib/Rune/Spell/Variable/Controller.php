@@ -142,7 +142,7 @@ class Rune_Spell_Variable_Controller
 
         foreach ($loopSource as $key => $value) {
 
-            $parameter = &$this->_runic->getParameter('rune_spell_variable');
+            $parameter = $this->_runic->getParameter('rune_spell_variable');
 
             $nestVariables = clone($parameter['variables']);
             if ($asKey) {
