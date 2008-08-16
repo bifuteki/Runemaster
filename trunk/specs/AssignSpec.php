@@ -4,7 +4,7 @@
 /* 
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  * @since      File available since Release 0.1.0
  */
 
@@ -118,6 +118,7 @@ class Describeテンプレート変数割り当て extends SpecCommon
         $variables->baz = array();
         $variables->baz[0] = new stdClass();
         $variables->baz[0]->quux = 'AAA';
+        $variables->baz[1] = new stdClass();
         $variables->baz[1]->qux = 'BBB';
 
         $master = $this->_master;
@@ -217,6 +218,7 @@ class Describeテンプレート変数割り当て extends SpecCommon
     {
         $variables = new stdClass();
         $variables->foo = 'Bar';
+        $variables->baz = new stdClass();
         $variables->baz->quux = 'Qux';
 
         $master = $this->_master;
