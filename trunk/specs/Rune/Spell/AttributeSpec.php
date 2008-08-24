@@ -8,7 +8,7 @@
  * @since      File available since Release 0.1.0
  */
 
-require_once dirname(__FILE__) . '/prepare.php';
+require_once dirname(__FILE__) . '/../SpecCommon.php';
 
 // {{{ Describeエレメント属性操作
 
@@ -55,8 +55,8 @@ class Describeエレメント属性操作 extends SpecCommon
 
         $master = $this->_master;
         $master->setAttribute('#foo', $element);
-        $display = rendererInTest($master, 'Attributes/Basic');
-        $result = file_get_contents('./results/Attributes/Basic.html');
+        $display = $this->_renderer('Attributes/Basic');
+        $result = $this->_answer('Attributes/Basic.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -69,8 +69,8 @@ class Describeエレメント属性操作 extends SpecCommon
 
         $master = $this->_master;
         $master->setAttribute('span', $element);
-        $display = rendererInTest($master, 'Attributes/Multi');
-        $result = file_get_contents('./results/Attributes/Multi.html');
+        $display = $this->_renderer('Attributes/Multi');
+        $result = $this->_answer('Attributes/Multi.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -82,9 +82,10 @@ class Describeエレメント属性操作 extends SpecCommon
 
         $master = $this->_master;
         $master->setAttribute('#foo', $element);
-        $display = rendererInTest($master, 'Attributes/Basic');
-        $result = file_get_contents('./templates/Attributes/Basic.html');
-
+        $display = $this->_renderer('Attributes/Basic');
+        $result = file_get_contents($this->_templatesDirectory .
+                                    '/Attributes/Basic.html'
+                                    );
         $this->spec($display)->should->be($result);
     }
 

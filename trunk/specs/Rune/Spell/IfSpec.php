@@ -8,7 +8,7 @@
  * @since      File available since Release 0.1.0
  */
 
-require_once dirname(__FILE__) . '/prepare.php';
+require_once dirname(__FILE__) . '/../SpecCommon.php';
 
 // {{{ Describe条件による表示切り替え処理
 
@@ -55,8 +55,8 @@ class Describe条件による表示切り替え処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'If/Basic');
-        $result = file_get_contents('./results/If/Basic.html');
+        $display = $this->_renderer('If/Basic');
+        $result = $this->_answer('If/Basic.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -69,8 +69,8 @@ class Describe条件による表示切り替え処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'If/Reversal');
-        $result = file_get_contents('./results/If/Reversal.html');
+        $display = $this->_renderer('If/Reversal');
+        $result = $this->_answer('If/Reversal.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -83,8 +83,8 @@ class Describe条件による表示切り替え処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'If/Object');
-        $result = file_get_contents('./results/If/Object.html');
+        $display = $this->_renderer('If/Object');
+        $result = $this->_answer('If/Object.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -96,15 +96,15 @@ class Describe条件による表示切り替え処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'If/Array');
-        $result = file_get_contents('./results/If/Array.html');
+        $display = $this->_renderer('If/Array');
+        $result = $this->_answer('If/Array.html');
 
         $this->spec($display)->should->be($result);
     }
 
     public function itクラスメソッドの評価によって表示非表示を切り替えることができる()
     {
-        require_once dirname(__FILE__) . '/lib/ExampleClass.php';
+        require_once dirname(__FILE__) . '/../lib/ExampleClass.php';
         $class = new ExampleClass();
 
         $variables = new stdClass();
@@ -112,8 +112,8 @@ class Describe条件による表示切り替え処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'If/Class');
-        $result = file_get_contents('./results/If/Class.html');
+        $display = $this->_renderer('If/Class');
+        $result = $this->_answer('If/Class.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -127,8 +127,8 @@ class Describe条件による表示切り替え処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'If/Function');
-        $result = file_get_contents('./results/If/Function.html');
+        $display = $this->_renderer('If/Function');
+        $result = $this->_answer('If/Function.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -143,8 +143,8 @@ class Describe条件による表示切り替え処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'If/Expression');
-        $result = file_get_contents('./results/If/Expression.html');
+        $display = $this->_renderer('If/Expression');
+        $result = $this->_answer('If/Expression.html');
 
         $this->spec($display)->should->be($result);
     }

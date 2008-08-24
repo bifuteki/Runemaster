@@ -8,7 +8,7 @@
  * @since      File available since Release 0.1.0
  */
 
-require_once dirname(__FILE__) . '/prepare.php';
+require_once dirname(__FILE__) . '/../SpecCommon.php';
 
 // {{{ Describe繰り返し処理
 
@@ -54,8 +54,8 @@ class Describe繰り返し処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Foreach/ForeachAsValue');
-        $result = file_get_contents('./results/Foreach/ForeachAsValue.html');
+        $display = $this->_renderer('Foreach/ForeachAsValue');
+        $result = $this->_answer('Foreach/ForeachAsValue.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -67,8 +67,8 @@ class Describe繰り返し処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Foreach/ForeachAsKeyValue');
-        $result = file_get_contents('./results/Foreach/ForeachAsKeyValue.html');
+        $display = $this->_renderer('Foreach/ForeachAsKeyValue');
+        $result = $this->_answer('Foreach/ForeachAsKeyValue.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -81,8 +81,8 @@ class Describe繰り返し処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Foreach/ForeachTopVariable');
-        $result = file_get_contents('./results/Foreach/ForeachTopVariable.html');
+        $display = $this->_renderer('Foreach/ForeachTopVariable');
+        $result = $this->_answer('Foreach/ForeachTopVariable.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -95,8 +95,8 @@ class Describe繰り返し処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Foreach/ForeachAsKeyValue');
-        $result = file_get_contents('./results/Foreach/ForeachAsKeyValue.html');
+        $display = $this->_renderer('Foreach/ForeachAsKeyValue');
+        $result = $this->_answer('Foreach/ForeachAsKeyValue.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -117,8 +117,8 @@ class Describe繰り返し処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Foreach/Table');
-        $result = file_get_contents('./results/Foreach/Table.html');
+        $display = $this->_renderer('Foreach/Table');
+        $result = $this->_answer('Foreach/Table.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -133,8 +133,8 @@ class Describe繰り返し処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Foreach/Nest');
-        $result = file_get_contents('./results/Foreach/Nest.html');
+        $display = $this->_renderer('Foreach/Nest');
+        $result = $this->_answer('Foreach/Nest.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -146,8 +146,8 @@ class Describe繰り返し処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Foreach/ForeachAsValue');
-        $result = file_get_contents('./results/Foreach/ForeachAsValue.html');
+        $display = $this->_renderer('Foreach/ForeachAsValue');
+        $result = $this->_answer('Foreach/ForeachAsValue.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -160,8 +160,8 @@ class Describe繰り返し処理 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Foreach/Noting');
-        $result = file_get_contents('./results/Foreach/Noting.html');
+        $display = $this->_renderer('Foreach/Noting');
+        $result = $this->_answer('Foreach/Noting.html');
 
         $this->spec($display)->should->be($result);
     }
