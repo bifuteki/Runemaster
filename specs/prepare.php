@@ -12,18 +12,7 @@ set_include_path(realpath(dirname(__FILE__) . '/../lib') .
                  PATH_SEPARATOR . get_include_path()
                  );
 
-require_once 'SpecCommon.php';
 require_once 'Rune/Master.php';
-
-function rendererInTest($master, $file, $variables = null)
-{
-    ob_start();
-    $master->cast($file, $variables);
-    $buffer = ob_get_contents();
-    ob_end_clean();
-
-    return $buffer;
-}
 
 /*
  * Local Variables:
