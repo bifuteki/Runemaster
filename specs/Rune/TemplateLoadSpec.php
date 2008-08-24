@@ -8,7 +8,7 @@
  * @since      File available since Release 0.1.0
  */
 
-require_once dirname(__FILE__) . '/prepare.php';
+require_once dirname(__FILE__) . '/SpecCommon.php';
 
 // {{{ Describeテンプレート読み込み
 
@@ -49,23 +49,20 @@ class Describeテンプレート読み込み extends SpecCommon
 
     public function itテンプレートはinlucdeで読み込んでいるのでphpタグが使える()
     {
-        $master = $this->_master;
-        $master->assign(array('title' => 'Hello, World!'));
-        $display = rendererInTest($master, 'TemplateLoad/UsingPHP');
-        $result = file_get_contents('./results/TemplateLoad/UsingPHP.html');
+        $this->_master->assign(array('title' => 'Hello, World!'));
+        $display = $this->_renderer('TemplateLoad/UsingPHP');
+        $result = $this->_answer('TemplateLoad/UsingPHP.html');
 
         $this->spec($display)->should->be($result);
     }
 
     public function itテンプレート内のphpスクリプトで変数が扱える()
     {
-        $master = $this->_master;
         $variables = array('items' => array('foo', 'bar', 'baz'));
-
-        $display = rendererInTest($master, 'TemplateLoad/UsingPHPWithVariable',
-                                  $variables
-                                  );
-        $result = file_get_contents('./results/TemplateLoad/UsingPHPWithVariable.html');
+        $display = $this->_renderer('TemplateLoad/UsingPHPWithVariable',
+                                    $variables
+                                    );
+        $result = $this->_answer('TemplateLoad/UsingPHPWithVariable.html');
 
         $this->spec($display)->should->be($result);
     }

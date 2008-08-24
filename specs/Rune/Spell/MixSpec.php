@@ -8,7 +8,7 @@
  * @since      File available since Release 0.1.0
  */
 
-require_once dirname(__FILE__) . '/prepare.php';
+require_once dirname(__FILE__) . '/../SpecCommon.php';
 
 // {{{ Describe機能の複合利用
 
@@ -57,8 +57,8 @@ class Describe機能の複合利用 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Mix/IfForeach');
-        $result = file_get_contents('./results/Mix/IfForeach.html');
+        $display = $this->_renderer('Mix/IfForeach');
+        $result = $this->_answer('Mix/IfForeach.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -72,8 +72,8 @@ class Describe機能の複合利用 extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Mix/ForeachSetAttribute');
-        $result = file_get_contents('./results/Mix/ForeachSetAttribute.html');
+        $display = $this->_renderer('Mix/ForeachSetAttribute');
+        $result = $this->_answer('Mix/ForeachSetAttribute.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -90,8 +90,8 @@ class Describe機能の複合利用 extends SpecCommon
         $master = $this->_master;
         $master->assign($variables);
         $master->setFormValue(null, $formValue);
-        $display = rendererInTest($master, 'Mix/ForeachCheckbox');
-        $result = file_get_contents('./results/Mix/ForeachCheckbox.html');
+        $display = $this->_renderer('Mix/ForeachCheckbox');
+        $result = $this->_answer('Mix/ForeachCheckbox.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -103,8 +103,8 @@ class Describe機能の複合利用 extends SpecCommon
         $master = $this->_master;
         $master->append('#foo', $node);
         $master->assign(array('foo' => 'Foo'));
-        $display = rendererInTest($master, 'Mix/AssignAfterAppend');
-        $result = file_get_contents('./results/Mix/AssignAfterAppend.html');
+        $display = $this->_renderer('Mix/AssignAfterAppend');
+        $result = $this->_answer('Mix/AssignAfterAppend.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -117,8 +117,8 @@ class Describe機能の複合利用 extends SpecCommon
         $master = $this->_master;
         $master->setAttribute('#foo', $element);
         $master->assign(array('foo' => 'Foo'));
-        $display = rendererInTest($master, 'Mix/AssignAfterSetAttributes');
-        $result = file_get_contents('./results/Mix/AssignAfterSetAttributes.html');
+        $display = $this->_renderer('Mix/AssignAfterSetAttributes');
+        $result = $this->_answer('Mix/AssignAfterSetAttributes.html');
 
         $this->spec($display)->should->be($result);
     }

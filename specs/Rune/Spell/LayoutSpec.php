@@ -8,7 +8,7 @@
  * @since      File available since Release 0.2.0
  */
 
-require_once dirname(__FILE__) . '/prepare.php';
+require_once dirname(__FILE__) . '/../SpecCommon.php';
 
 // {{{ Describeレイアウト機能
 
@@ -51,8 +51,8 @@ class Describeレイアウト機能 extends SpecCommon
     {
         $master = $this->_master;
         $master->setLayout('Layout/Basic');
-        $display = rendererInTest($master, 'Layout/Content');
-        $result = file_get_contents('./results/Layout/Inner.html');
+        $display = $this->_renderer('Layout/Content');
+        $result = $this->_answer('Layout/Inner.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -61,8 +61,8 @@ class Describeレイアウト機能 extends SpecCommon
     {
         $master = $this->_master;
         $master->setLayout('Layout/Inner');
-        $display = rendererInTest($master, 'Layout/Content');
-        $result = file_get_contents('./results/Layout/Inner.html');
+        $display = $this->_renderer('Layout/Content');
+        $result = $this->_answer('Layout/Inner.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -71,8 +71,8 @@ class Describeレイアウト機能 extends SpecCommon
     {
         $master = $this->_master;
         $master->setLayout('Layout/Outer');
-        $display = rendererInTest($master, 'Layout/Content');
-        $result = file_get_contents('./results/Layout/Outer.html');
+        $display = $this->_renderer('Layout/Content');
+        $result = $this->_answer('Layout/Outer.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -80,9 +80,9 @@ class Describeレイアウト機能 extends SpecCommon
     public function itレイアウトテンプレートのディレクトリを個別指定できる()
     {
         $master = $this->_master;
-        $master->setLayout('Inner', $this->_templateDirectory . '/Layout');
-        $display = rendererInTest($master, 'Layout/Content');
-        $result = file_get_contents('./results/Layout/Inner.html');
+        $master->setLayout('Inner', $this->_templatesDirectory . '/Layout');
+        $display = $this->_renderer('Layout/Content');
+        $result = $this->_answer('Layout/Inner.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -91,8 +91,8 @@ class Describeレイアウト機能 extends SpecCommon
     {
         $master = $this->_master;
         $master->setLayout('Layout/Inner');
-        $display = rendererInTest($master, 'Layout/ContentsWithOther');
-        $result = file_get_contents('./results/Layout/Inner.html');
+        $display = $this->_renderer('Layout/ContentsWithOther');
+        $result = $this->_answer('Layout/Inner.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -101,8 +101,8 @@ class Describeレイアウト機能 extends SpecCommon
     {
         $master = $this->_master;
         $master->setLayout('Layout/Inner');
-        $display = rendererInTest($master, 'Layout/ContentsInInner');
-        $result = file_get_contents('./results/Layout/Inner.html');
+        $display = $this->_renderer('Layout/ContentsInInner');
+        $result = $this->_answer('Layout/Inner.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -111,8 +111,8 @@ class Describeレイアウト機能 extends SpecCommon
     {
         $master = $this->_master;
         $master->setLayout('Layout/Outer');
-        $display = rendererInTest($master, 'Layout/ContentsInOuter');
-        $result = file_get_contents('./results/Layout/Inner.html');
+        $display = $this->_renderer('Layout/ContentsInOuter');
+        $result = $this->_answer('Layout/Inner.html');
 
         $this->spec($display)->should->be($result);
     }

@@ -8,7 +8,7 @@
  * @since      File available since Release 0.1.0
  */
 
-require_once dirname(__FILE__) . '/prepare.php';
+require_once dirname(__FILE__) . '/SpecCommon.php';
 
 // {{{ Describeプラグイン
 
@@ -49,8 +49,7 @@ class Describeプラグイン extends SpecCommon
 
     public function it利用するプラグインのエントリリストが取得できる()
     {
-        $master = $this->_master;
-        $spells = $master->listSpell();
+        $spells = $this->_master->listSpell();
 
         $this->spec(is_array($spells))->should->beTrue();
         $this->spec(count($spells))->should->be(7);
@@ -58,15 +57,13 @@ class Describeプラグイン extends SpecCommon
 
     public function it利用するプラグインのエントリを変更できる()
     {
-        $master = $this->_master;
-
-        $master->assign(array('foo' => 'Bar'));
-        $display = rendererInTest($master, 'Plugin/Change');
-        $result = file_get_contents('./results/Plugin/Change1.html');
+        $this->_master->assign(array('foo' => 'Bar'));
+        $display = $this->_renderer('Plugin/Change');
+        $result = $this->_answer('Plugin/Change1.html');
 
         $this->spec($display)->should->be($result);
 
-        $spells = $master->listSpell();
+        $spells = $this->_master->listSpell();
         $newSpells = array();
         foreach ($spells as $spell) {
             if ($spell !== 'Rune_Spell_Variable') {
@@ -77,9 +74,8 @@ class Describeプラグイン extends SpecCommon
         $this->before();
 
         try {
-            $master = $this->_master;
-            $master->setSpells($newSpells);
-            $master->assign(array('foo' => 'Baz'));
+            $this->_master->setSpells($newSpells);
+            $this->_master->assign(array('foo' => 'Baz'));
         } catch (Exception $e) {
             return;
         }
@@ -89,17 +85,16 @@ class Describeプラグイン extends SpecCommon
 
     public function itオリジナルプラグインが追加できる()
     {
-        set_include_path(realpath(dirname(__FILE__) . '/lib') .
+        set_include_path(realpath(dirname(__FILE__) . '/PluginSpec') .
                          PATH_SEPARATOR . get_include_path()
                          );
 
-        $master = $this->_master;
-        $master->addSpell('ExampleSpell');
+        $this->_master->addSpell('ExampleSpell');
 
-        $master->testExampleSpell('Changed by original spell.');
+        $this->_master->testExampleSpell('Changed by original spell.');
 
-        $display = rendererInTest($master, 'Plugin/Add');
-        $result = file_get_contents('./results/Plugin/Add.html');
+        $display = $this->_renderer('Plugin/Add');
+        $result = $this->_answer('Plugin/Add.html');
 
         $this->spec($display)->should->be($result);
     }

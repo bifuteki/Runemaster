@@ -8,7 +8,7 @@
  * @since      File available since Release 0.1.0
  */
 
-require_once dirname(__FILE__) . '/prepare.php';
+require_once dirname(__FILE__) . '/../SpecCommon.php';
 
 // {{{ Describe挿入処理
 
@@ -55,8 +55,8 @@ class Describe挿入処理 extends SpecCommon
         $master = $this->_master;
         $master->append('#foo', $text);
         $master->append('#bar', $node);
-        $display = rendererInTest($master, 'Manipulation/AppendContent');
-        $result = file_get_contents('./results/Manipulation/AppendContent.html');
+        $display = $this->_renderer('Manipulation/AppendContent');
+        $result = $this->_answer('Manipulation/AppendContent.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -69,8 +69,8 @@ class Describe挿入処理 extends SpecCommon
 
         $master = $this->_master;
         $master->append('#foo', $node);
-        $display = rendererInTest($master, 'Manipulation/AppendNode');
-        $result = file_get_contents('./results/Manipulation/AppendNode.html');
+        $display = $this->_renderer('Manipulation/AppendNode');
+        $result = $this->_answer('Manipulation/AppendNode.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -83,8 +83,8 @@ class Describe挿入処理 extends SpecCommon
         $master = $this->_master;
         $master->prepend('#foo', $text);
         $master->prepend('#bar', $node);
-        $display = rendererInTest($master, 'Manipulation/PrependContent');
-        $result = file_get_contents('./results/Manipulation/PrependContent.html');
+        $display = $this->_renderer('Manipulation/PrependContent');
+        $result = $this->_answer('Manipulation/PrependContent.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -97,8 +97,8 @@ class Describe挿入処理 extends SpecCommon
 
         $master = $this->_master;
         $master->prepend('#foo', $node);
-        $display = rendererInTest($master, 'Manipulation/PrependNode');
-        $result = file_get_contents('./results/Manipulation/PrependNode.html');
+        $display = $this->_renderer('Manipulation/PrependNode');
+        $result = $this->_answer('Manipulation/PrependNode.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -112,8 +112,8 @@ class Describe挿入処理 extends SpecCommon
         $master->append('#foo', $appendixContent);
         $master->prepend('#foo', $prependsContent);
 
-        $display = rendererInTest($master, 'Manipulation/AppendAndPrepend');
-        $result = file_get_contents('./results/Manipulation/AppendAndPrepend.html');
+        $display = $this->_renderer('Manipulation/AppendAndPrepend');
+        $result = $this->_answer('Manipulation/AppendAndPrepend.html');
 
         $this->spec($display)->should->be($result);
     }

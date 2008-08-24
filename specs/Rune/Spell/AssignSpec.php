@@ -8,7 +8,7 @@
  * @since      File available since Release 0.1.0
  */
 
-require_once dirname(__FILE__) . '/prepare.php';
+require_once dirname(__FILE__) . '/../SpecCommon.php';
 
 // {{{ Describeテンプレート変数割り当て
 
@@ -54,8 +54,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Literal');
-        $result = file_get_contents('./results/Assign/Literal.html');
+        $display = $this->_renderer('Assign/Literal');
+        $result = $this->_answer('Assign/Literal.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -67,8 +67,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Literal');
-        $result = file_get_contents('./results/Assign/Literal.html');
+        $display = $this->_renderer('Assign/Literal');
+        $result = $this->_answer('Assign/Literal.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -87,8 +87,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Array');
-        $result = file_get_contents('./results/Assign/Array.html');
+        $display = $this->_renderer('Assign/Array');
+        $result = $this->_answer('Assign/Array.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -103,8 +103,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Object');
-        $result = file_get_contents('./results/Assign/Object.html');
+        $display = $this->_renderer('Assign/Object');
+        $result = $this->_answer('Assign/Object.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -123,15 +123,15 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/ArrayObject');
-        $result = file_get_contents('./results/Assign/ArrayObject.html');
+        $display = $this->_renderer('Assign/ArrayObject');
+        $result = $this->_answer('Assign/ArrayObject.html');
 
         $this->spec($display)->should->be($result);
     }
 
     public function itテンプレート変数として割り当てたクラスオブジェクトのメソッドが利用できる()
     {
-        require_once dirname(__FILE__) . '/lib/ExampleClass.php';
+        require_once dirname(__FILE__) . '/../lib/ExampleClass.php';
         $class = new ExampleClass();
 
         $variables = new stdClass();
@@ -141,22 +141,22 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Class');
-        $result = file_get_contents('./results/Assign/Class.html');
+        $display = $this->_renderer('Assign/Class');
+        $result = $this->_answer('Assign/Class.html');
 
         $this->spec($display)->should->be($result);
     }
 
     public function itテンプレート変数に対して関数が利用できる()
     {
-        require_once dirname(__FILE__) . '/lib/ExampleFunction.php';
+        require_once dirname(__FILE__) . '/../lib/ExampleFunction.php';
         $variables = new stdClass();
         $variables->items = array(1, 2, 3);
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Function');
-        $result = file_get_contents('./results/Assign/Function.html');
+        $display = $this->_renderer('Assign/Function');
+        $result = $this->_answer('Assign/Function.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -169,8 +169,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
         $master = $this->_master;
         $master->setVariableKey('original_key');
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/OriginalKey');
-        $result = file_get_contents('./results/Assign/OriginalKey.html');
+        $display = $this->_renderer('Assign/OriginalKey');
+        $result = $this->_answer('Assign/OriginalKey.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -182,8 +182,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Htmlspecialchars1');
-        $result = file_get_contents('./results/Assign/Htmlspecialchars1.html');
+        $display = $this->_renderer('Assign/Htmlspecialchars1');
+        $result = $this->_answer('Assign/Htmlspecialchars1.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -195,8 +195,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Htmlspecialchars2');
-        $result = file_get_contents('./results/Assign/Htmlspecialchars2.html');
+        $display = $this->_renderer('Assign/Htmlspecialchars2');
+        $result = $this->_answer('Assign/Htmlspecialchars2.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -208,8 +208,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/SameKey');
-        $result = file_get_contents('./results/Assign/SameKey.html');
+        $display = $this->_renderer('Assign/SameKey');
+        $result = $this->_answer('Assign/SameKey.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -223,8 +223,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/NoAssign');
-        $result = file_get_contents('./results/Assign/NoAssign.html');
+        $display = $this->_renderer('Assign/NoAssign');
+        $result = $this->_answer('Assign/NoAssign.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -236,8 +236,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Omitter');
-        $result = file_get_contents('./results/Assign/Omitter.html');
+        $display = $this->_renderer('Assign/Omitter');
+        $result = $this->_answer('Assign/Omitter.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -250,8 +250,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Attribute');
-        $result = file_get_contents('./results/Assign/Attribute.html');
+        $display = $this->_renderer('Assign/Attribute');
+        $result = $this->_answer('Assign/Attribute.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -264,8 +264,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/NodeText');
-        $result = file_get_contents('./results/Assign/NodeText.html');
+        $display = $this->_renderer('Assign/NodeText');
+        $result = $this->_answer('Assign/NodeText.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -280,8 +280,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Htmlspecialchars3');
-        $result = file_get_contents('./results/Assign/Htmlspecialchars3.html');
+        $display = $this->_renderer('Assign/Htmlspecialchars3');
+        $result = $this->_answer('Assign/Htmlspecialchars3.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -295,8 +295,8 @@ class Describeテンプレート変数割り当て extends SpecCommon
 
         $master = $this->_master;
         $master->assign($variables);
-        $display = rendererInTest($master, 'Assign/Htmlspecialchars4');
-        $result = file_get_contents('./results/Assign/Htmlspecialchars4.html');
+        $display = $this->_renderer('Assign/Htmlspecialchars4');
+        $result = $this->_answer('Assign/Htmlspecialchars4.html');
 
         $this->spec($display)->should->be($result);
     }

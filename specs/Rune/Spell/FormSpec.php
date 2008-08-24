@@ -8,7 +8,7 @@
  * @since      File available since Release 0.1.0
  */
 
-require_once dirname(__FILE__) . '/prepare.php';
+require_once dirname(__FILE__) . '/../SpecCommon.php';
 
 // {{{ Describeフォーム操作
 
@@ -54,8 +54,8 @@ class Describeフォーム操作 extends SpecCommon
 
         $master = $this->_master;
         $master->setFormValue('example', $values);
-        $display = rendererInTest($master, 'Form/TextLine');
-        $result = file_get_contents('./results/Form/TextLine.html');
+        $display = $this->_renderer('Form/TextLine');
+        $result = $this->_answer('Form/TextLine.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -71,8 +71,8 @@ MESSAGE;
 
         $master = $this->_master;
         $master->setFormValue('example', $values);
-        $display = rendererInTest($master, 'Form/TextArea');
-        $result = file_get_contents('./results/Form/TextArea.html');
+        $display = $this->_renderer('Form/TextArea');
+        $result = $this->_answer('Form/TextArea.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -84,8 +84,8 @@ MESSAGE;
 
         $master = $this->_master;
         $master->setFormValue('example', $values);
-        $display = rendererInTest($master, 'Form/Hidden');
-        $result = file_get_contents('./results/Form/Hidden.html');
+        $display = $this->_renderer('Form/Hidden');
+        $result = $this->_answer('Form/Hidden.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -97,8 +97,8 @@ MESSAGE;
 
         $master = $this->_master;
         $master->setFormValue('example', $values);
-        $display = rendererInTest($master, 'Form/Select');
-        $result = file_get_contents('./results/Form/Select.html');
+        $display = $this->_renderer('Form/Select');
+        $result = $this->_answer('Form/Select.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -110,8 +110,8 @@ MESSAGE;
 
         $master = $this->_master;
         $master->setFormValue('example', $values);
-        $display = rendererInTest($master, 'Form/Radio');
-        $result = file_get_contents('./results/Form/Radio.html');
+        $display = $this->_renderer('Form/Radio');
+        $result = $this->_answer('Form/Radio.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -124,8 +124,8 @@ MESSAGE;
 
         $master = $this->_master;
         $master->setFormValue('example', $values);
-        $display = rendererInTest($master, 'Form/Checkbox');
-        $result = file_get_contents('./results/Form/Checkbox.html');
+        $display = $this->_renderer('Form/Checkbox');
+        $result = $this->_answer('Form/Checkbox.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -141,8 +141,8 @@ MESSAGE;
         $master = $this->_master;
         $master->setFormValue('example', $values);
         $master->assign(array('qux' => 'qux'));
-        $display = rendererInTest($master, 'Form/Button');
-        $result = file_get_contents('./results/Form/Button.html');
+        $display = $this->_renderer('Form/Button');
+        $result = $this->_answer('Form/Button.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -155,8 +155,8 @@ MESSAGE;
 
         $master = $this->_master;
         $master->setHiddenValue('example', $values);
-        $display = rendererInTest($master, 'Form/InsertHidden');
-        $result = file_get_contents('./results/Form/InsertHidden.html');
+        $display = $this->_renderer('Form/InsertHidden');
+        $result = $this->_answer('Form/InsertHidden.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -172,8 +172,8 @@ MESSAGE;
         $master->setOption('item', $items);
         $master->setOption('person', $persons);
         $master->setFormValue('example', $values);
-        $display = rendererInTest($master, 'Form/Options');
-        $result = file_get_contents('./results/Form/Options.html');
+        $display = $this->_renderer('Form/Options');
+        $result = $this->_answer('Form/Options.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -185,8 +185,8 @@ MESSAGE;
 
         $master = $this->_master;
         $master->setFormValue('example', $values);
-        $display = rendererInTest($master, 'Form/Html');
-        $result = file_get_contents('./results/Form/Html.html');
+        $display = $this->_renderer('Form/Html');
+        $result = $this->_answer('Form/Html.html');
 
         $this->spec($display)->should->be($result);
     }
@@ -198,8 +198,8 @@ MESSAGE;
 
         $master = $this->_master;
         $master->setFormValue('example', $values);
-        $display = rendererInTest($master, 'Form/MultibyteChars');
-        $result = file_get_contents('./results/Form/MultibyteChars.html');
+        $display = $this->_renderer('Form/MultibyteChars');
+        $result = $this->_answer('Form/MultibyteChars.html');
 
         $this->spec($display)->should->be($result);
     }
