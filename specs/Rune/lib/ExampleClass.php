@@ -4,23 +4,21 @@
 /* 
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
- * @version    SVN: $Id:$
+ * @version    SVN: $Id$
  * @since      File available since Release 0.1.0
  */
 
-require_once 'Rune/Spell/Common.php';
-
-// {{{ Example Spell
+// {{{ Example Class
 
 /**
- * Exmaple Spell
+ * Exmaple Class
  *
  * @package    Runemaster
  * @copyright  2008 KUMAKURA Yousuke All rights reserved.
  * @version    Release: @package_version@
  * @since      Class available since Release 0.1.0
  */
-class ExampleSpell extends Rune_Spell_Common
+class ExampleClass
 {
 
     // {{{ properties
@@ -47,23 +45,24 @@ class ExampleSpell extends Rune_Spell_Common
      * @access public
      */
 
-    public function carve(&$stone)
+    public function getFoo()
     {
-        $example = $this->getParameter('example');
-
-        foreach (Rune_Master::find($stone, '#example') as $node) {
-            $node->innertext = $example;
-        }
+        return 'Foo';
     }
 
-    public function test($example)
+    public function add($a, $b)
     {
-        $this->setParameter('example', $example);
+        return $a + $b;
     }
 
-    public function initialize()
+    public function getTrue()
     {
-        $this->addMethod('testExampleSpell', 'test');
+        return true;
+    }
+
+    public function getFalse()
+    {
+        return false;
     }
 
     /**#@-*/
